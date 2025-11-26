@@ -1,0 +1,1 @@
+npm run theme -- --color=#5D91F4 --out=theme.js

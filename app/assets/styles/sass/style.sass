@@ -1,0 +1,64 @@
+@import url('https://fonts.googleapis.com/css2?family=Onest:wght@100..900&display=swap')
+body
+  font-family: "Onest", sans-serif
+  font-optical-sizing: auto
+  font-weight: 400
+  font-size: 16px
+  font-style: normal
+  font-variation-settings: "wdth" 100
+  background-color: #F1F2F4
+
+::-webkit-scrollbar
+  width: 5px
+
+::-webkit-scrollbar-track
+  background: #f1f1f1
+
+::-webkit-scrollbar-thumb
+  background: #f59e0b
+  border-radius: 500px
+
+::-webkit-scrollbar-thumb:hover
+  background: #d97706
+
+.text-gray-400
+  color: #8F8FA3
+
+.text-md
+  font-size: 14px
+.status
+  font-size: 12px
+  font-weight: 500
+  &::before
+    position: relative
+    margin-right: 3px
+    top: -1px
+    content: ""
+    display: inline-block
+    width: 6px
+    height: 6px
+    border-radius: 100%
+
+.online
+  color: #0EA503
+  &::before
+    background: #0EA503
+
+.offline
+  color: #8D95A5
+  &::before
+    background: #8D95A5
+
+.p-select, .p-textarea, .p-inputtext
+
+  &:focus
+    box-shadow: none !important
+    outline: none !important
+    border-color: black !important
+
+.p-focus
+  outline: none !important
+  box-shadow: none !important
+
+
+

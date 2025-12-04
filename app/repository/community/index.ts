@@ -94,6 +94,13 @@ export function createCommunityRepository(appFetch: typeof $fetch){
                 body
             })
         },
+        product_update(body: FormData){
+            console.log(body.get('slug'))
+            return  appFetch(`/api/communities/${currentCommunity.value.slug}/infoproducts/${body.get('slug')}/`,{
+                method:'patch',
+                body
+            })
+        },
 
 
         events(){

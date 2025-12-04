@@ -1,5 +1,7 @@
 <script setup lang="ts">
 import type {Event,} from "~/repository/community/types";
+const communityStore = useCommunityStore()
+const {currentCommunity} = storeToRefs(communityStore)
 const props = defineProps<{
   event: Event
 }>()
@@ -17,7 +19,7 @@ const emits  = defineEmits(['delete-event'])
       <div class="space-y-3">
         <div class="flex items-center justify-between">
           <p class="text-sm text-gray-400 font-medium">{{new Date(event.start_date).toLocaleDateString()}} {{event.time_text}}</p>
-          <div class="flex">
+          <div v-if="currentCommunity?.is_owner" class="flex">
             <Button text icon="pi pi-pencil" size="small" @click="navigateTo(`events/${event.slug}/edit/`)"/>
             <Button text icon="pi pi-trash"  size="small" severity="danger" @click="emits('delete-event',event.slug)"/>
           </div>

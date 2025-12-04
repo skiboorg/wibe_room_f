@@ -1,9 +1,8 @@
 <script setup lang="ts">
 
-
-// Props
 import type {Post, PostTag, PostPhoto} from "~/repository/community/types";
-
+import { useToast } from 'primevue/usetoast';
+const toast = useToast()
 const props = defineProps(['is_edit_mode'])
 const communityStore = useCommunityStore()
 const { $api } = useNuxtApp()
@@ -93,7 +92,9 @@ const { send } = useForm({
   formData: formData.value,
   asFormData: true,
   onSuccess: async ()=>{
-    console.log('success')
+    toast.add({ severity: 'success',summary:'Успешно', detail: 'Пост создан', life: 3000 });
+    navigateTo(`/group/${currentCommunity?.slug}`)
+
   }
 })
 
@@ -123,7 +124,7 @@ onUnmounted(() => {
 })
 </script>
 <template>
-  {{formData}}
+<!--  {{formData}}-->
   <div class="max-w-4xl mx-auto p-6 bg-white rounded-lg shadow-lg">
     <h2 class="text-2xl font-bold mb-6">Создание новой записи</h2>
 

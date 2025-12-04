@@ -110,7 +110,7 @@ const { send } = useForm({
       detail: is_edit_mode.value ? 'Cобытие обновлено' : 'Cобытие создано',
       life: 2000
     })
-    navigateTo(`/group/${community?.slug}/events`)
+    navigateTo(`/group/${currentCommunity.value?.slug}/events`)
   }
 })
 </script>

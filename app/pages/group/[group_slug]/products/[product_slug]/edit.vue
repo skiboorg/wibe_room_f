@@ -11,7 +11,7 @@ const {data:product, refresh, status} = await useHttpRequest( useAsyncData(()=>$
 
 <template>
 
-<FormProduct :product="product"/>
+<FormProduct :product="product" :is_edit_mode="true"/>
 </template>
 
 <style scoped>

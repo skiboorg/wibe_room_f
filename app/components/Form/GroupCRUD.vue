@@ -248,9 +248,6 @@ const submitForm = async () => {
 </script>
 
 <template>
-  <pre>
-    {{form}}
-  </pre>
   <div class="min-h-screen ">
     <div class="container ">
       <div class="mb-8">

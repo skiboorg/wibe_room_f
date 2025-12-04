@@ -40,7 +40,7 @@ const send = async () => {
   try{
     const response = await $api.auth.register(form_data.value)
     toast.add({ severity: 'success',summary:'Успешно', detail: 'Аккаунт создан', life: 3000 });
-    // emits('register_done')
+    emits('change_form','login')
 
 
   }catch(error){

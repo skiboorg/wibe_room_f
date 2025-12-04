@@ -1,6 +1,7 @@
 <script setup lang="ts">
 const {$api} = useNuxtApp()
-
+const communityStore = useCommunityStore()
+const {currentCommunity} = storeToRefs(communityStore)
 const {data:events_response, refresh, status} = useHttpRequest(useAsyncData(()=>$api.community.events()))
 
 // Текущий отображаемый индекс
@@ -72,7 +73,7 @@ const hanldeDelete = async (slug) => {
 <template>
   <div class="space-y-4">
 
-    <Button label="Добавить" @click="navigateTo('events/new')"/>
+    <Button v-if="currentCommunity?.is_owner" label="Добавить" @click="navigateTo('events/new')"/>
     <!-- Навигация и отображение одной группы -->
     <div v-if="currentGroup">
       <CardBase padding="lg_sm" class="mb-2" >

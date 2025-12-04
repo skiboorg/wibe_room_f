@@ -20,12 +20,15 @@ const page_update = async (page)=>{
 </script>
 
 <template>
-  <UIButton @click="navigateTo(`/group/${currentCommunity?.slug}/products/new`)" label="Добавить"/>
-<CardProduct v-for="product in products_response?.main_products" :key="product.id" :product="product"/>
-  <div class="grid grid-cols-2 gap-x-2 gap-y-4 ">
-    <CardProduct v-for="product in products_response?.products" :key="product.id" :product="product"/>
+  <UIButton v-if="currentCommunity?.is_owner" @click="navigateTo(`/group/${currentCommunity?.slug}/products/new`)" label="Добавить"/>
+  <div class="space-y-4">
+    <CardProduct v-for="product in products_response?.main_products" :key="product.id" :product="product"/>
+    <div class="grid grid-cols-2 gap-x-2 gap-y-4 ">
+      <CardProduct v-for="product in products_response?.products" :key="product.id" :product="product"/>
+    </div>
+    <UIPaginator :total="products_response?.count" :page="filters.page" :per-page="10" @update:page="page_update"/>
   </div>
-  <UIPaginator :total="products_response?.count" :page="filters.page" :per-page="10" @update:page="page_update"/>
+
 </template>
 
 <style scoped>

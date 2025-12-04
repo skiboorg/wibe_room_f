@@ -9,7 +9,10 @@ const items = ref([
     items: [
       {
         label: 'Профиль',
-        icon: 'pi pi-refresh'
+        icon: 'pi pi-user',
+        command: async () => {
+          navigateTo('/profile')
+        }
       },
       {
         label: 'Выход',
@@ -42,13 +45,16 @@ const toggle = (event) => {
         </svg>
         <div class="bg-secondary absolute top-[-10px] right-[-15px] text-white w-[16px] h-[16px] inline-flex items-center justify-center rounded-full p-1 text-[10px]">3</div>
       </div>
-      <UIAvatar class="cursor-pointer" size="md" @click="toggle"/>
+      <UIAvatar class="cursor-pointer" size="md" :image="user.avatar" @click="toggle"/>
 
       <Menu ref="menu" id="overlay_menu" :model="items" :popup="true" />
     </div>
   </template>
   <template v-else>
-    <UIButton @click="navigateTo('/login')" label="Вход/Регистрация"/>
+    <div class="flex justify-end">
+      <UIButton  @click="navigateTo('/login')" label="Вход/Регистрация"/>
+    </div>
+
   </template>
 </template>
 

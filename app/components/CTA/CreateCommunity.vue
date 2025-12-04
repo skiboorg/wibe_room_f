@@ -1,5 +1,6 @@
 <script setup lang="ts">
-
+const authStore = useAuthStore()
+const {user} = storeToRefs(authStore)
 </script>
 
 <template>
@@ -8,7 +9,7 @@
   <p class="text-md">И начни монетизировать свои очень большие знания! Бесплатно до 2026 года</p>
   <div class="flex gap-3">
     <UIButton size="sm" variant="outline_black"  label="Скрыть"/>
-    <nuxt-link to="/group/create">
+    <nuxt-link :to="user ? '/group/create' :'/login'">
       <UIButton size="sm" variant="white"  label="Создать"/>
     </nuxt-link>
 

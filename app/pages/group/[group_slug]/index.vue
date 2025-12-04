@@ -45,7 +45,7 @@ watch(() => loading.value, async () => {
   </template>
   <template v-else>
     <div class="space-y-4">
-      <CardBase v-if="currentCommunity?.is_member" padding="lg_sm">
+      <CardBase v-if="currentCommunity?.is_owner" padding="lg_sm">
         <div class="flex items-start gap-4">
           <UIAvatar size="md" />
 

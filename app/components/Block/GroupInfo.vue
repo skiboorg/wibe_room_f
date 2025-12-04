@@ -1,8 +1,9 @@
 <script setup lang="ts">
 const {$api} = useNuxtApp()
 const communityStore = useCommunityStore()
+const authStore = useAuthStore()
 const {currentCommunity} = storeToRefs(communityStore)
-
+const {user} = storeToRefs(authStore)
 const join = async () => {
   await $api.community.join()
   window.location.reload()
@@ -40,7 +41,7 @@ const join = async () => {
         </UIButton>
         </nuxt-link>
       </div>
-      <div v-if="!currentCommunity.is_member" class="mt-3">
+      <div v-if="user && !currentCommunity.is_member" class="mt-3">
         <UIButton @click="join" label="Вступить" extra-class="w-full"/>
       </div>
 

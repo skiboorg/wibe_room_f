@@ -1,10 +1,9 @@
 <script setup lang="ts">
 definePageMeta({
   auth: true,
-  layout: 'group-form'
+  layout: 'profile'
 })
 </script>
-
 <template>
-  <FormGroupCRUD/>
+  <NuxtPage />
 </template>

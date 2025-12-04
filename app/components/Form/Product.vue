@@ -8,12 +8,14 @@ const pageBuilderRef = ref(null)
 const preview = ref(null)
 const is_edit_mode = ref(false)
 
-const props = defineProps(['product'])
+const props = defineProps(['product','is_edit_mode'])
 const editorStructure = ref(null)
 
+const productDataToSend = ref()
 const productData = ref({
   title: '',
   is_main: false,
+  slug: null,
   cover: null,
   short_description: '',
   price: null,
@@ -22,13 +24,22 @@ const productData = ref({
   product_info_structure: ''
 })
 
+const fillData = () =>{
+  productData.value.title= props.product.title
+  productData.value.is_main= props.product.is_main
+  productData.value.slug= props.product.slug
+  productData.value.short_description= props.product.short_description
+  productData.value.price= props.product.price
+  productData.value.community= props.product.community
+  productData.value.product_info= props.product.product_info
+  productData.value.product_info_structure= props.product.product_info_structure
+}
+
 onMounted(async () => {
   if (props.product) {
-    is_edit_mode.value = true
-    productData.value = {
-      ...props.product,
-      community: currentCommunity.value.id
-    }
+    is_edit_mode.value = props.is_edit_mode
+    console.log(props.product)
+    fillData()
 
     await nextTick()
 
@@ -62,7 +73,7 @@ const onCoverSelect = (event) => {
 }
 
 const { send } = useForm({
-  apiFn:  $api.community.product_create,
+  apiFn: props.is_edit_mode ?  $api.community.product_update : $api.community.product_create,
   formData: productData.value,
   asFormData: true,
   onSuccess: async ()=>{
@@ -91,17 +102,9 @@ const saveProduct = async () => {
 
 </script>
 <template>
-  <p class="text-red-500">sdfdsfds</p>
-  <p>
-    {{is_edit_mode}}
-  </p>
-  <pre>
-    {{editorStructure}}
-  </pre>
-
   <div class="container mx-auto p-6">
     <h1 class="text-2xl font-bold mb-6">Редактор инфопродукта</h1>
-    <Button label="Сохранить" @click="saveProduct" />
+    <Button :label="is_edit_mode? 'Обновить' : 'Сохранить'" @click="saveProduct" />
 
     <!-- Форма основных данных -->
     <div class="bg-white border rounded-lg p-6 mb-6">

@@ -6,8 +6,8 @@ const {$api} = useNuxtApp()
 const loading = ref(false)
 
 const form_data = ref({
-  login:'123',
-  password:'q1w2e3r4t5DFSS',
+  login:'',
+  password:'',
 })
 
 watch(

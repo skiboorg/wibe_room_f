@@ -5,10 +5,10 @@ const toast = useToast()
 const {$api} = useNuxtApp()
 const loading = ref(false)
 const form_data = ref({
-  full_name:'Иван Петров',//null,
-  email:'test@test.com',
-  password:'q1w2e3r4t5DFSS',
-  password1:'q1w2e3r4t5DFSS',
+  full_name:'',//null,
+  email:'',
+  password:'',
+  password1:'',
 })
 
 watch(

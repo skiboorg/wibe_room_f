@@ -44,7 +44,7 @@ const login = async () => {
 
 <template>
 <CardBase padding="none" extra-class="min-w-[50%]">
-  <div class="flex flex-col items-center justify-center w-full p-[60px]">
+  <div class="flex flex-col items-center justify-center w-full px-5 py-8 md:p-[60px]">
     <BlockLogo class="mb-8"/>
     <TypingText32 text="Вход в Вайбрум" class="mb-8"/>
     <div class="space-y-3 w-full mb-8">

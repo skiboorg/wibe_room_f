@@ -18,7 +18,7 @@ const paddingClasses: Record<string, string> = {
   sm: 'p-4',
   md: 'p-5',
   lg_sm: 'px-5 py-3',
-  lg: 'p-[50px]',
+  lg: 'px-5 py-10 md:p-[50px] ',
 }
 </script>
 

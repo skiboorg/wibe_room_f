@@ -3,10 +3,10 @@
 </script>
 
 <template>
-<footer class="border-t border-[#E2E4E9] py-8">
+<footer class="border-t border-[#E2E4E9] py-4 md:py-8">
   <div class="container">
     <div class="flex items-center justify-between">
-      <div class="flex items-center gap-4">
+      <div class="flex flex-wrap items-center gap-2 md:gap-4">
         <a href="#" class="text-[#707A8F] text-md">Политика конфиденциальности</a>
         <a href="#" class="text-[#707A8F] text-md">Согласие на обработку</a>
       </div>

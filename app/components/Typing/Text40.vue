@@ -3,7 +3,7 @@ const props = defineProps(['text'])
 </script>
 
 <template>
-<p class="text-[40px] leading-[130%] font-semibold">{{text}}</p>
+<p class="text-[24px] md:text-[40px] leading-[130%] font-semibold">{{text}}</p>
 </template>
 
 <style scoped>

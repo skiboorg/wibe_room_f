@@ -42,13 +42,25 @@ const links = computed(() => [
 
 <template>
 <CardBase>
-  <NuxtLink v-for="link in links" :to="link.to"
-            :class="link.is_active? '' : 'pointer-events-none opacity-50'"
-            class="flex items-center gap-3 py-3 px-4 rounded-lg link"
-            exact-active-class="link-active" active-class="link-active">
-    <span  v-html="link.icon"></span>
-    <p>{{link.label}}</p>
-  </NuxtLink>
+
+  <div class="md:block overflow-x-auto md:overflow-visible">
+    <div class="flex md:block whitespace-nowrap md:whitespace-normal">
+      <NuxtLink
+          v-for="link in links"
+          :key="link.to"
+          :to="link.to"
+          :class="[
+        link.is_active ? '' : 'pointer-events-none opacity-50',
+        'flex items-center gap-3 py-3 px-4 rounded-lg link shrink-0 md:shrink'
+      ]"
+          exact-active-class="link-active"
+          active-class="link-active"
+      >
+        <span v-html="link.icon"></span>
+        <p>{{ link.label }}</p>
+      </NuxtLink>
+    </div>
+  </div>
 </CardBase>
 </template>
 

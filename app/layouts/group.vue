@@ -6,14 +6,14 @@ const {loading} = storeToRefs(communityStore);
   <BlockGroupHeader id="top"/>
   <div class="container">
     <BlockToIndex/>
-    <div class="grid grid-cols-12 gap-10">
-      <div class="col-span-3">
+    <div class="grid grid-cols-1 md:grid-cols-12 gap-4 md:gap-10">
+      <div class="md:col-span-3">
         <BlockGroupSideMenu/>
       </div>
-      <div class="col-span-6">
+      <div class="md:col-span-6 mb-10">
         <slot/>
       </div>
-      <div class="col-span-3">
+      <div class="hidden md:block col-span-3">
         <SkeletonGroupInfo v-if="loading"/>
         <BlockGroupInfo v-else/>
       </div>

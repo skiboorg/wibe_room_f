@@ -24,8 +24,8 @@ const goToGroup = (community: any) => {
 <template>
 
   <div class="bg-white py-[14px] mb-6">
-    <div  class="container grid grid-cols-3 items-center gap-10">
-      <div class="">
+    <div  class="container grid grid-cols-1 md:grid-cols-3 items-center gap-10">
+      <div class="w-full md:w-auto">
         <Select
             v-if="user"
             v-model="selectedCommunity"
@@ -71,7 +71,7 @@ const goToGroup = (community: any) => {
 
 
       <!-- Поиск -->
-      <div class="w-full flex items-center gap-3 bg-[#F1F2F4] px-[18px] py-[14px] rounded-lg">
+      <div class="w-full hidden md:flex items-center gap-3 bg-[#F1F2F4] px-[18px] py-[14px] rounded-lg">
         <svg width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path d="M5.41667 0C6.85326 0 8.23101 0.570683 9.24683 1.5865C10.2627 2.60233 10.8333 3.98008 10.8333 5.41667C10.8333 6.75833 10.3417 7.99167 9.53333 8.94167L9.75833 9.16667H10.4167L14.5833 13.3333L13.3333 14.5833L9.16667 10.4167V9.75833L8.94167 9.53333C7.95864 10.3721 6.70887 10.833 5.41667 10.8333C3.98008 10.8333 2.60233 10.2627 1.5865 9.24683C0.570683 8.23101 0 6.85326 0 5.41667C0 3.98008 0.570683 2.60233 1.5865 1.5865C2.60233 0.570683 3.98008 0 5.41667 0ZM5.41667 1.66667C3.33333 1.66667 1.66667 3.33333 1.66667 5.41667C1.66667 7.5 3.33333 9.16667 5.41667 9.16667C7.5 9.16667 9.16667 7.5 9.16667 5.41667C9.16667 3.33333 7.5 1.66667 5.41667 1.66667Z" fill="#8D95A5"/>
         </svg>

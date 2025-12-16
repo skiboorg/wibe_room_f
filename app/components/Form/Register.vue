@@ -83,9 +83,9 @@ const send = async () => {
 
 <template>
 <CardBase padding="none" extra-class="min-w-[50%]">
-  <div class="flex flex-col items-center justify-center w-full p-[60px]">
-    <BlockLogo class="mb-8"/>
-    <TypingText24 text="Создайте ваш Вайбрум-аккаунт" class="mb-8"/>
+  <div class="flex flex-col items-center justify-center w-full px-5 py-8 md:p-[60px]">
+    <BlockLogo class="mb-4 md:mb-8"/>
+    <TypingText24 text="Создайте ваш Вайбрум-аккаунт" class="mb-4 md:mb-8"/>
     <div class="space-y-3 w-full mb-8">
 
       <UIInput fluid placeholder="Ваше ФИО" label="ФИО" id="full_name" v-model="form_data.full_name"/>

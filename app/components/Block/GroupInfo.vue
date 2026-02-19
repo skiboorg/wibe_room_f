@@ -24,11 +24,11 @@ const join = async () => {
     <p class="text-sm text-gray-400 ">Бесплатная группа</p>
       </div>
 
-      <UILink show_copy_icon external_link label="https://www.viberoom.ru/skolerboynextdoorby" link="https://www.ya.ru"/>
+      <UILink show_copy_icon external_link :label="`@${currentCommunity.slug}`" :link="`https://viberoom.org/group/${currentCommunity.slug}`"/>
 
-      <p class="leading-[130%] mb-3">
+      <p class="leading-[130%] mb-3 break-all mt-4">
         {{currentCommunity.short_description}}
-        <span class="text-gray-400">Подробнее...</span></p>
+      </p>
       <div class="space-y-2">
         <UILink v-for="link in currentCommunity.community_links" show_link_icon external_link :label="link.title" :link="link.url"/>
       </div>

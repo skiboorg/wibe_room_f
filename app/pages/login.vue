@@ -1,8 +1,8 @@
 <script setup lang="ts">
-definePageMeta({
-  guest: true,
-  layout: 'auth'
-})
+// definePageMeta({
+//   guest: true,
+//   layout: 'auth'
+// })
 const show_form = ref('login')
 
 const on_change_form = (form) => {

@@ -100,18 +100,13 @@ const { send } = useForm({
 </script>
 
 <template>
-  {{avatarPreview}}
-  <div class="profile-edit-page">
-    <div class="container mx-auto px-4 py-8">
-      <!-- Заголовок -->
       <div class="mb-8">
-        <h1 class="text-3xl font-bold text-gray-900">Редактирование профиля</h1>
+        <h1 class="text-xl md:text-3xl font-bold text-gray-900">Редактирование профиля</h1>
         <p class="text-gray-600 mt-2">Обновите информацию о себе</p>
       </div>
-
-      <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 w-full">
         <!-- Левая колонка - Аватар -->
-        <div class="lg:col-span-1">
+        <div class="col-span-12 md:col-span-4">
           <Card class="h-fit">
             <template #title>Аватар</template>
             <template #content>
@@ -123,7 +118,7 @@ const { send } = useForm({
                       :label="avatarPreview || user?.avatar ? null : avatarLabel"
                       size="xlarge"
                       shape="circle"
-                      class="w-48 h-48 text-6xl"
+                      class="w-20 h-20 md:w-48 md:h-48 text-6xl"
                   />
 
                   <!-- Индикатор загрузки -->
@@ -173,14 +168,14 @@ const { send } = useForm({
         </div>
 
         <!-- Правая колонка - Форма -->
-        <div class="lg:col-span-2">
+        <div class="col-span-12 md:col-span-8">
           <Card>
             <template #title>Основная информация</template>
             <template #content>
               <form @submit.prevent="saveProfile">
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <!-- Email -->
-                  <div class="md:col-span-2">
+                  <div class="">
                     <div class="field">
                       <label for="email" class="block text-sm font-medium text-gray-700 mb-2">
                         Email *
@@ -190,7 +185,7 @@ const { send } = useForm({
                           v-model="formData.email"
                           type="email"
                           placeholder="example@mail.ru"
-                          class="w-full"
+                          class="w-full min-w-0"
                           :class="{ 'p-invalid': errors.email }"
                       />
                       <small v-if="errors.email" class="p-error">{{ errors.email }}</small>
@@ -198,7 +193,7 @@ const { send } = useForm({
                   </div>
 
                   <!-- ФИО -->
-                  <div class="md:col-span-2">
+                  <div class="">
                     <div class="field">
                       <label for="full_name" class="block text-sm font-medium text-gray-700 mb-2">
                         ФИО
@@ -296,8 +291,8 @@ const { send } = useForm({
         </div>
       </div>
 
-    </div>
-  </div>
+
+
 </template>
 
 <style scoped>

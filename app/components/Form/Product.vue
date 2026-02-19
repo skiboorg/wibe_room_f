@@ -1,5 +1,7 @@
 <script setup>
 
+import PageBuilder from "~/components/Block/PageBuilder.vue";
+
 const {$api} = useNuxtApp()
 const communityStore = useCommunityStore()
 const {currentCommunity} = storeToRefs(communityStore)
@@ -100,6 +102,15 @@ const saveProduct = async () => {
   }
 }
 
+
+const builder = ref(null)
+
+const handleSave = (data) => {
+  console.log(data.blocks) // Массив блоков
+  console.log(data.json)   // JSON строка
+  console.log(data.html)   // Чистый HTML
+}
+
 </script>
 <template>
   <div class="container mx-auto p-6">
@@ -141,11 +152,14 @@ const saveProduct = async () => {
       </div>
     </div>
 
-    <BlockPageBuilder
-        ref="pageBuilderRef"
-        :initial-data="editorStructure"
+<!--    <BlockPageBuilder-->
+<!--        ref="pageBuilderRef"-->
+<!--        :initial-data="editorStructure"-->
 
-    />
+<!--    />-->
+
+<!--    <PageBuilderPro ref="builder" @save="handleSave" />-->
+    <PageBuilderMain @save="handleSave"/>
   </div>
 </template>
 

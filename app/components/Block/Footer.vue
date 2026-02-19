@@ -3,7 +3,7 @@
 </script>
 
 <template>
-<footer class="border-t border-[#E2E4E9] py-4 md:py-8">
+<footer class="border-t border-[#E2E4E9] py-4 md:py-8 mt-20 md:mt-40">
   <div class="container">
     <div class="flex items-center justify-between">
       <div class="flex flex-wrap items-center gap-2 md:gap-4">

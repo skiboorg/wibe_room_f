@@ -24,7 +24,7 @@ const goToGroup = (community: any) => {
 <template>
 
   <div class="bg-white py-[14px] mb-6">
-    <div  class="container grid grid-cols-1 md:grid-cols-3 items-center gap-10">
+    <div  class="container grid grid-cols-2 md:grid-cols-3 items-center gap-10">
       <div class="w-full md:w-auto">
         <Select
             v-if="user"

@@ -741,7 +741,6 @@ onMounted(async () => {
       tagName: 'div',
       draggable: true,
       droppable: true,
-      editable: true,
       style: {
         'margin-top': '48px',
         'background-color': '#F1F2F4',
@@ -758,14 +757,10 @@ onMounted(async () => {
           style: {
             'font-weight': '600',
             'line-height': '130%',
-            'margin-bottom': '16px',
             'font-size': '24px',
             'margin': '0 0 16px 0'
           },
-          components: {
-            type: 'text',
-            content: 'Почему так происходит?'
-          }
+          components: 'Почему так происходит?' // ← Просто строка, не объект!
         },
         {
           tagName: 'p',
@@ -774,18 +769,16 @@ onMounted(async () => {
           editable: true,
           style: {
             'line-height': '150%',
-            'margin-bottom': '24px',
             'font-size': '16px',
             'margin': '0 0 24px 0',
             'color': '#666'
           },
-          components: 'Потому что ты продолжаешь действовать без четкого плана и стратегии. Ты веришь, что рост придет сам собой, а на самом деле — ты застряла в бесконечном цикле подготовки.'
+          components: 'Потому что ты продолжаешь действовать без четкого плана и стратегии.' // ← Просто строка!
         },
         {
           tagName: 'div',
           draggable: true,
           droppable: true,
-          editable: true,
           style: {
             'display': 'flex',
             'gap': '16px',
@@ -795,17 +788,12 @@ onMounted(async () => {
           components: [
             {
               type: 'custom-button',
-              components: [
-                {
-                  type: 'text',
-                  content: 'Кнопка'
-                }
-              ],
+              components: 'Основная кнопка', // ← Просто строка!
               variant: 'filled'
             },
             {
               type: 'custom-button',
-              components: 'Оформить рассрочку',
+              components: 'Оформить рассрочку', // ← Уже правильно
               variant: 'outline'
             }
           ]

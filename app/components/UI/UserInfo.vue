@@ -53,7 +53,7 @@ const toggle = (event) => {
       <UIButton  @click="navigateTo('/login')" label="Вход/Регистрация"/>
     </div>
     <div class="flex justify-end md:hidden">
-      <UIAvatar class="cursor-pointer" size="md" :image="user.avatar" @click="toggle"/>
+
       <Button @click="mobileMenuActive=true" text icon="pi pi-bars"/>
     </div>
 

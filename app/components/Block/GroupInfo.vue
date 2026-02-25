@@ -41,9 +41,11 @@ const join = async () => {
         </UIButton>
         </nuxt-link>
       </div>
-      <div v-if="user && !currentCommunity.is_member" class="mt-3">
-        <UIButton @click="join" label="Вступить" extra-class="w-full"/>
+      <div v-if="user" class="mt-3">
+        <UIButton v-if="!currentCommunity.is_member" @click="join" label="Вступить" extra-class="w-full"/>
+        <UIButton v-else  label="Выйти" extra-class="w-full"/>
       </div>
+
 
     </div>
   </CardBase>

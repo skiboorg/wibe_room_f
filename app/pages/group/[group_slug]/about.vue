@@ -1,5 +1,7 @@
 <script setup lang="ts">
 const communityStore = useCommunityStore()
+const authStore = useAuthStore()
+const {user} = storeToRefs(authStore)
 const {currentCommunity} = storeToRefs(communityStore)
 </script>
 
@@ -21,13 +23,22 @@ const {currentCommunity} = storeToRefs(communityStore)
       </svg>
       <p class="text-sm  ">{{currentCommunity?.members_count}} подписчиков</p>
     </div>
-    <UILink show_copy_icon show_link_icon label="www.viberoom.ru/skolerboynextdoorby" link="https://www.viberoom.ru/skolerboynextdoorby"/>
+    <div class="mb-3">
+      <UILink show_copy_icon external_link :label="`@${currentCommunity.slug}`" :link="`https://viberoom.org/group/${currentCommunity.slug}`"/>
+    </div>
+
+    <div class="space-y-2">
+      <UILink v-for="link in currentCommunity.community_links" show_link_icon external_link :label="link.title" :link="link.url"/>
+    </div>
      <div class="mt-6">
        <p class="font-semibold mb-3">О группе</p>
        <div class="leading-[130%]" v-html="currentCommunity?.long_description"></div>
      </div>
 
-
+    <div v-if="user" class="block md:hidden mt-3">
+      <UIButton v-if="!currentCommunity.is_member" @click="join" label="Вступить" extra-class="w-full"/>
+      <UIButton v-else  label="Выйти" extra-class="w-full"/>
+    </div>
   </CardBase>
 </template>
 

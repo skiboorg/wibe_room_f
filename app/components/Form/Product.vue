@@ -105,16 +105,21 @@ const saveProduct = async () => {
 
 const builder = ref(null)
 
-const handleSave = (data) => {
+const handleSave = async (data) => {
   console.log(data.blocks) // Массив блоков
   console.log(data.json)   // JSON строка
   console.log(data.html)   // Чистый HTML
+  productData.value.product_info = data.html
+  productData.value.product_info_structure = data.json
+
+  await send()
 }
 
 </script>
 <template>
   <div class="container mx-auto p-6">
     <h1 class="text-2xl font-bold mb-6">Редактор инфопродукта</h1>
+
     <Button :label="is_edit_mode? 'Обновить' : 'Сохранить'" @click="saveProduct" />
 
     <!-- Форма основных данных -->
@@ -159,7 +164,7 @@ const handleSave = (data) => {
 <!--    />-->
 
 <!--    <PageBuilderPro ref="builder" @save="handleSave" />-->
-    <PageBuilderMain @save="handleSave"/>
+    <PageBuilderMain :initial-data="editorStructure" @save="handleSave"/>
   </div>
 </template>
 

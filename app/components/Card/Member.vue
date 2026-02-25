@@ -11,10 +11,10 @@ const props = defineProps<{
 <CardBase padding="md">
 
   <div class="grid grid-cols-12 gap-4">
-    <div class="col-span-2">
+    <div class="col-span-4 lg:col-span-2">
       <UIAvatar :image="member.avatar" size="xl"/>
     </div>
-    <div class="col-span-10">
+    <div class="col-span-8 lg:col-span-10">
       <div class="space-y-3">
         <div>
           <div class="flex items-center gap-2">

@@ -93,14 +93,8 @@ export const gridToHTML = (block: any, renderChildren?: (children: any[]) => str
     const columnBlocks = columnData[colIndex] || []
 
     if (columnBlocks.length > 0 && renderChildren) {
-      const columnHTML = columnBlocks.map((childBlock: any) => {
-        const blockRegistry = require('./index')
-        const toHTMLFn = blockRegistry.getBlockToHTML(childBlock.type)
-        if (toHTMLFn) {
-          return toHTMLFn(childBlock, renderChildren)
-        }
-        return ''
-      }).join('')
+      // Используем переданную функцию renderChildren для рекурсивного рендеринга
+      const columnHTML = renderChildren(columnBlocks)
       return `<div>${columnHTML}</div>`
     }
     return '<div></div>'

@@ -12,16 +12,16 @@ module.exports = {
             center: true,
             padding: {
                 DEFAULT: '16px',   // по умолчанию (мобилки)
-                sm: '20px',
-                md: '24px',
-                lg: '30px',
+                sm: '16px',
+                md: '16px',
+                lg: '16px',
                 xl: '0px',
                 '2xl': '0px'
             },
             screens: {
-                sm: '640px',
-                md: '768px',
-                lg: '1024px',
+                sm: '990px',
+                md: '1024px',
+                lg: '1248px',
                 xl: '1248px',
                 '2xl': '1248px'
             }

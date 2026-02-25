@@ -6,7 +6,10 @@ definePageMeta({
 </script>
 
 <template>
-<FormProduct/>
+<FormProduct class="hidden md:block"/>
+  <p class="block md:hidden">
+    Создание продукта только в ПК версии
+  </p>
 </template>
 
 <style scoped>

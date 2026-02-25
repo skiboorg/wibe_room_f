@@ -67,6 +67,7 @@ const goToGroup = (community: any) => {
             </div>
           </template>
         </Select>
+        <BlockLogo v-else/>
       </div>
 
 

@@ -2,16 +2,20 @@
 import type {ShortResult} from "~/repository/community/types";
 
 const {$api} = useNuxtApp()
+const { hook } = useNuxtApp()
 const authStore = useAuthStore()
 const {user} = storeToRefs(authStore)
 const { group_slug } = useRoute().params
 const communities = ref<ShortResult[]>([])
 
 const selectedCommunity = ref(null)
+const refresh_community_in_header = ref<Function | null>(null)
 if (user.value){
-  const {data: communities_resp} = await useHttpRequest(useAsyncData(() => $api.community.my()))
+  const {data: communities_resp, refresh} = await useHttpRequest(useAsyncData(() => $api.community.my()))
   communities.value = communities_resp.value
   selectedCommunity.value = communities.value?.find(community => community.slug === group_slug ) || null
+  hook('community:refresh', refresh)
+
 }
 
 // Функция для перехода в группу

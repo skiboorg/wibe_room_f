@@ -47,8 +47,7 @@ const toggle = (event) => {
 <CardBase padding="md">
   <div class="flex items-center justify-between mb-[18px]">
     <div class="flex items-center gap-2">
-      <UIAvatar/>
-
+      <UIAvatar :image="post.added_by.avatar"/>
       <div>
         <p class="font-medium">{{post.added_by.full_name}}
           <span v-if="post.added_by.is_admin" class="px-[6px] py-1 text-gray-400 text-xs border border-[#C6CAD2] rounded-[41px]">Админ</span>

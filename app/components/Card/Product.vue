@@ -13,6 +13,8 @@ const {currentCommunity} = storeToRefs(communityStore)
 <template>
 <CardBase>
   <div class="relative mb-5">
+    <Button v-if="currentCommunity?.is_owner" icon="pi pi-pencil" @click="navigateTo(`/group/${currentCommunity.slug}/products/${product.slug}/edit`)"/>
+
     <img v-if="product.cover" class="rounded-lg w-full h-[300px] object-cover block " :src="product.cover" alt="">
 <!--    <p class="bottom-3 left-3 absolute bg-secondary text-white font-medium text-sm px-2 py-1 inline-block rounded-lg">Распродажа</p>-->
   </div>
@@ -21,9 +23,12 @@ const {currentCommunity} = storeToRefs(communityStore)
     <p class="text-md leading-[130%] mb-[18px]">
       {{product.short_description}}
     </p>
-    <div class="flex gap-2 w-full">
+
+    <div class="flex flex-wrap gap-2 w-full">
+      <UIButton variant="outline" :label="product.price ?  `Доступ за ${product.price}₽` : 'Беслатно'"/>
+
       <nuxt-link :to="`/group/${currentCommunity?.slug}/products/${product.slug}`">
-        <UIButton label="Бесплатно" extra-class="w-full"/>
+        <UIButton label="Подробнее" extra-class="w-full"/>
       </nuxt-link>
       <UIButton variant="outline" >
         <template #icon_left>
@@ -34,7 +39,6 @@ const {currentCommunity} = storeToRefs(communityStore)
         </template>
       </UIButton>
 
-        <Button v-if="currentCommunity?.is_owner" icon="pi pi-pencil" @click="navigateTo(`/group/${currentCommunity.slug}/products/${product.slug}/edit`)"/>
 
     </div>
   </div>

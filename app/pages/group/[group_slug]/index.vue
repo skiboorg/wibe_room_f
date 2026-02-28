@@ -2,7 +2,8 @@
 const {$api} = useNuxtApp()
 const communityStore = useCommunityStore()
 const {currentCommunity,loading, needRefresh} = storeToRefs(communityStore)
-
+const authStore = useAuthStore()
+const {user} = storeToRefs(authStore)
 const filters = ref({
   tag:'all',
   q:  null,
@@ -47,7 +48,7 @@ watch(() => loading.value, async () => {
     <div class="space-y-4">
       <CardBase v-if="currentCommunity?.is_owner" padding="lg_sm">
         <div class="flex items-start gap-4">
-          <UIAvatar size="md" />
+          <UIAvatar :image="user.avatar" size="md" />
 
           <UIButton @click="navigateTo(`/group/${currentCommunity.slug}/post`)" variant="outline" label="Напишите пост" fluid/>
         </div>

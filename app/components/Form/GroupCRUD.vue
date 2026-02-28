@@ -10,7 +10,7 @@ const {fetchCommunity} = communityStore
 import { useToast } from 'primevue/usetoast';
 const toast = useToast()
 const { $api } = useNuxtApp()
-
+const { callHook } = useNuxtApp()
 const community = communityStore.currentCommunity
 
 const props = defineProps(['is_edit_mode'])
@@ -207,15 +207,16 @@ const { send } = useForm({
   apiFn: props.is_edit_mode ? $api.community.update : $api.community.create,
   formData: form.value,
   asFormData: true,
-  onSuccess: async ()=>{
+  onSuccess: async (data)=>{
     toast.add({
       severity: 'success',
       summary: 'Успешно',
-      detail: 'Cообщество обновлено',
+      detail: isEditMode.value ? 'Cообщество обновлено' : 'Cообщество создано',
       life: 2000
     })
+    await callHook('community:refresh')
     await fetchCommunity(community.slug)
-    navigateTo(`/group/${community?.slug}`)
+    isEditMode.value ? navigateTo(`/group/${community?.slug}`) : navigateTo(`/group/${data.slug}`)
   }
 })
 

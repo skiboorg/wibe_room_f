@@ -1,7 +1,7 @@
 <script setup lang="ts">
 const props = defineProps({
   size: {
-    type: String as () => 'xs' | 'sm' | 'md' |'lg'|'xl' ,
+    type: String as () => 'xs' | 'sm' | 'md' |'lg'|'xl'|'xxl' ,
     default: 'sm'
   },
   image:{
@@ -22,6 +22,7 @@ const sizeClasses: Record<string, string> = {
   md: 'w-10 h-10',
   lg: 'w-[56px] h-[56px]',
   xl: 'w-[72px] h-[72px]',
+  xxl: 'w-[220px] h-[220px]',
 }
 </script>
 

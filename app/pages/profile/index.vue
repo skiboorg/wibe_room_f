@@ -100,97 +100,76 @@ const { send } = useForm({
 </script>
 
 <template>
-      <div class="mb-8">
-        <h1 class="text-xl md:text-3xl font-bold text-gray-900">Редактирование профиля</h1>
-        <p class="text-gray-600 mt-2">Обновите информацию о себе</p>
-      </div>
-      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 w-full">
-        <!-- Левая колонка - Аватар -->
-        <div class="col-span-12 md:col-span-4">
-          <Card class="h-fit">
-            <template #title>Аватар</template>
-            <template #content>
-              <div class="flex flex-col items-center space-y-6">
-                <!-- Предпросмотр аватара -->
-                <div class="relative">
-                  <Avatar
-                      :image="avatarPreview || user?.avatar"
-                      :label="avatarPreview || user?.avatar ? null : avatarLabel"
-                      size="xlarge"
-                      shape="circle"
-                      class="w-20 h-20 md:w-48 md:h-48 text-6xl"
-                  />
-
-                  <!-- Индикатор загрузки -->
-                  <ProgressSpinner
-                      v-if="uploading"
-                      style="width: 50px; height: 50px"
-                      strokeWidth="8"
-                      class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
-                  />
-                </div>
-
-                <!-- Кнопки загрузки -->
-                <div class="flex flex-col space-y-2 w-full">
-                  <Button
-                      label="Выбрать файл"
-                      icon="pi pi-image"
-                      @click="fileInput?.click()"
-                      :disabled="uploading"
-                  />
 
 
-                </div>
 
-                <!-- Скрытый input -->
-                <input
-                    type="file"
-                    ref="fileInput"
-                    accept="image/*"
-                    @change="onFileSelected"
-                    class="hidden"
-                />
 
-                <!-- Информация о файле -->
-                <div v-if="selectedFile" class="text-sm text-gray-600 text-center">
-                  <p>Выбран: {{ selectedFile.name }}</p>
-                  <p>Размер: {{ (selectedFile.size / 1024).toFixed(2) }} KB</p>
-                </div>
-
-                <!-- Подсказки -->
-                <div class="text-xs text-gray-500 text-center">
-                  <p>Поддерживаются JPG, PNG, GIF</p>
-                  <p>Максимальный размер: 5MB</p>
-                </div>
-              </div>
-            </template>
-          </Card>
-        </div>
-
-        <!-- Правая колонка - Форма -->
-        <div class="col-span-12 md:col-span-8">
           <Card>
-            <template #title>Основная информация</template>
+            <template #title>Ваш профиль</template>
             <template #content>
-              <form @submit.prevent="saveProfile">
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <!-- Email -->
-                  <div class="">
-                    <div class="field">
-                      <label for="email" class="block text-sm font-medium text-gray-700 mb-2">
-                        Email *
-                      </label>
-                      <InputText
-                          id="email"
-                          v-model="formData.email"
-                          type="email"
-                          placeholder="example@mail.ru"
-                          class="w-full min-w-0"
-                          :class="{ 'p-invalid': errors.email }"
-                      />
-                      <small v-if="errors.email" class="p-error">{{ errors.email }}</small>
-                    </div>
+              <div class="grid grid-cols-12 gap-10">
+                <div class="col-span-2">
+                  <!-- Предпросмотр аватара -->
+                  <div class="relative">
+                    <Avatar
+                        :image="avatarPreview || user?.avatar"
+                        :label="avatarPreview || user?.avatar ? null : avatarLabel"
+                        size="xl"
+                        shape="circle"
+                        class="w-14 h-14 md:w-14 md:h-14 text-6xl"
+                    />
+
+                    <!-- Индикатор загрузки -->
+                    <ProgressSpinner
+                        v-if="uploading"
+                        style="width: 50px; height: 50px"
+                        strokeWidth="8"
+                        class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
+                    />
                   </div>
+                </div>
+                <div class="col-span-10">
+                  <!-- Кнопки загрузки -->
+                  <div class="flex flex-col space-y-2 w-full">
+                    <Button
+                        label="Выбрать файл"
+                        icon="pi pi-image"
+                        @click="fileInput?.click()"
+                        :disabled="uploading"
+                    />
+
+
+                  </div>
+
+                  <!-- Скрытый input -->
+                  <input
+                      type="file"
+                      ref="fileInput"
+                      accept="image/*"
+                      @change="onFileSelected"
+                      class="hidden"
+                  />
+
+                  <!-- Информация о файле -->
+                  <div v-if="selectedFile" class="text-sm text-gray-600 text-center">
+                    <p>Выбран: {{ selectedFile.name }}</p>
+                    <p>Размер: {{ (selectedFile.size / 1024).toFixed(2) }} KB</p>
+                  </div>
+
+                  <!-- Подсказки -->
+                  <div class="text-xs text-gray-500 text-center">
+                    <p>Поддерживаются JPG, PNG, GIF</p>
+                    <p>Максимальный размер: 5MB</p>
+                  </div>
+                </div>
+
+
+
+              </div>
+
+              <form @submit.prevent="saveProfile">
+                <div class="space-y-4">
+
 
                   <!-- ФИО -->
                   <div class="">
@@ -226,26 +205,6 @@ const { send } = useForm({
                     </div>
                   </div>
 
-                  <!-- Telegram username -->
-                  <div>
-                    <div class="field">
-                      <label for="tg_username" class="block text-sm font-medium text-gray-700 mb-2">
-                        Telegram
-                      </label>
-                      <div class="p-inputgroup">
-                        <span class="p-inputgroup-addon">@</span>
-                        <InputText
-                            id="tg_username"
-                            v-model="formData.tg_username"
-                            placeholder="username"
-                            class="w-full"
-                            :class="{ 'p-invalid': errors.tg_username }"
-                        />
-                      </div>
-                      <small v-if="errors.tg_username" class="p-error">{{ errors.tg_username }}</small>
-                    </div>
-                  </div>
-
 
 
                   <!-- Комментарий -->
@@ -270,12 +229,7 @@ const { send } = useForm({
             </template>
             <template #footer>
               <div class="flex justify-between items-center">
-                <Button
-                    label="Отмена"
-                    severity="secondary"
-                    outlined
-                    @click="navigateTo('/')"
-                />
+
                 <div class="flex space-x-3">
 
                   <Button
@@ -288,8 +242,7 @@ const { send } = useForm({
               </div>
             </template>
           </Card>
-        </div>
-      </div>
+
 
 
 

@@ -30,6 +30,8 @@ const form = ref<FullResult>({
   cover: null,
   community_links: [],
   community_photos: [],      // ← только НОВЫЕ файлы
+  community_videos: [],
+  community_rules: [],
   community_tags: [],
   photos_to_delete: [],
 })
@@ -65,6 +67,15 @@ const fillFormWithCommunityData = () => {
     title: link.title || '',
     url: link.url || ''
   }))
+
+  form.value.community_rules = community.community_rules?.map(rule => ({
+    title: rule.title,
+    text: rule.text
+  })) || []
+
+  form.value.community_videos = community.community_videos?.map(video => ({
+    vk_video_link: video.vk_video_link
+  })) || []
 
   // обложка
   if (community.cover) {
@@ -167,7 +178,26 @@ const addLink = () => {
 const removeLink = (index: number) => {
   form.value.community_links.splice(index, 1)
 }
+const addRule = () => {
+  form.value.community_rules.push({
+    title: '',
+    text: ''
+  })
+}
 
+const removeRule = (index:number) => {
+  form.value.community_rules.splice(index,1)
+}
+
+const addVideo = () => {
+  form.value.community_videos.push({
+    vk_video_link: ''
+  })
+}
+
+const removeVideo = (index:number) => {
+  form.value.community_videos.splice(index,1)
+}
 // проверка URL
 const isValidUrl = (string: string): boolean => {
   try {
@@ -431,6 +461,98 @@ const submitForm = async () => {
           <div v-if="errors.community_photos" class="text-red-500 text-sm mt-1">
             {{ errors.community_photos }}
           </div>
+        </div>
+
+        <!-- Правила сообщества -->
+        <div class="mb-6">
+          <div class="flex items-center justify-between mb-4">
+            <label class="block text-sm font-medium text-gray-700">
+              Правила сообщества
+            </label>
+
+            <Button
+                @click="addRule"
+                label="Добавить правило"
+                severity="secondary"
+                size="small"
+                icon="pi pi-plus"
+            />
+          </div>
+
+          <div
+              v-for="(rule,index) in form.community_rules"
+              :key="index"
+              class="mb-4 p-4 border rounded-lg"
+          >
+            <InputText
+                v-model="rule.title"
+                placeholder="Название правила"
+                class="w-full mb-2"
+            />
+
+            <Textarea
+                v-model="rule.text"
+                auto-resize
+                placeholder="Описание правила"
+                class="w-full"
+            />
+
+            <Button
+                @click="removeRule(index)"
+                icon="pi pi-trash"
+                severity="danger"
+                size="small"
+                class="mt-2"
+            />
+          </div>
+
+          <div v-if="form.community_rules.length === 0"
+               class="text-gray-500 text-center py-4">
+            Нет правил
+          </div>
+        </div>
+
+        <!-- Видео -->
+        <div class="mb-6">
+
+          <div class="flex items-center justify-between mb-4">
+            <label class="block text-sm font-medium text-gray-700">
+              Видео ВКонтакте
+            </label>
+
+            <Button
+                @click="addVideo"
+                label="Добавить видео"
+                severity="secondary"
+                size="small"
+                icon="pi pi-plus"
+            />
+          </div>
+
+          <div
+              v-for="(video,index) in form.community_videos"
+              :key="index"
+              class="flex gap-3 mb-3"
+          >
+            <InputText
+                v-model="video.vk_video_link"
+                placeholder="https://vk.com/video..."
+                class="flex-1"
+            />
+
+            <Button
+                @click="removeVideo(index)"
+                severity="danger"
+                size="small"
+                icon="pi pi-trash"
+            />
+          </div>
+
+          <div v-if="form.community_videos.length === 0"
+               class="text-center py-4 text-gray-500">
+            Нет добавленных видео
+          </div>
+
         </div>
 
         <!-- Ссылки -->

@@ -25,10 +25,12 @@ export interface FullResult {
     community_tags?: CommunityTag[]
     community_photos: CommunityPhoto[]
     community_links: CommunityLink[]
+    community_rules: [{ title: '', text: '' }]
+    community_videos: [{ vk_video_link: '' }]
     members_count: number
     first_members: FirstMember[]
-    is_owner:boolean
-    is_member:boolean
+    is_owner: boolean
+    is_member: boolean
     created_at: string
 }
 
@@ -53,9 +55,7 @@ export interface FirstMember {
     id: number
     avatar: string
     full_name: string
-
 }
-
 
 export interface PostResponse {
     pinned: Post[]
@@ -64,7 +64,6 @@ export interface PostResponse {
     next: any
     previous: any
 }
-
 
 export interface PostTag {
     id: number
@@ -81,16 +80,20 @@ export interface AddedBy {
 
 export interface Post {
     id: number | null
-    community: number| null
+    community: number | null
     post_tags: PostTag[]
     date: string
     added_by: AddedBy
     title: string
     text: string
     vk_video_link: string | null
-    is_pinned:Boolean
+    is_pinned: boolean
     photos: PostPhoto[]
-    reactions?: any[]
+    is_own?: boolean
+    reactions?: PostReaction[]
+    reactions_count?: Record<string, number>
+    my_reaction?: string | null
+    comments_count?: number
     new_tags?: any[]
 }
 
@@ -99,6 +102,34 @@ export interface PostPhoto {
     image: string
 }
 
+export interface PostReaction {
+    id: number
+    post: number
+    reaction: string
+    author: AddedBy
+}
+
+export interface PostComment {
+    id: number
+    post: number
+    parent: number | null
+    author: AddedBy | null
+    text: string
+    image?: string | null
+    date: string
+    replies?: PostComment[]
+    reactions?: CommentReaction[]
+    reactions_count?: Record<string, number>
+    my_reaction?: string | null
+    is_own?: boolean
+}
+
+export interface CommentReaction {
+    id: number
+    comment: number
+    reaction: string
+    author: AddedBy
+}
 
 export interface ProductResponse {
     main_products: Product[]
@@ -119,8 +150,6 @@ export interface Product {
     product_info: string
 }
 
-
-
 export interface EventResponse {
     month: string
     events: Event[]
@@ -136,9 +165,7 @@ export interface Event {
     short_description: string
 }
 
-
-
-export interface MembersResult{
+export interface MembersResult {
     users: MemberUser
     is_owner: boolean
     joined_at: string

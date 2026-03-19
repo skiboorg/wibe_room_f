@@ -1,47 +1,204 @@
 <script setup lang="ts">
 const communityStore = useCommunityStore()
 const authStore = useAuthStore()
-const {user} = storeToRefs(authStore)
-const {currentCommunity} = storeToRefs(communityStore)
+
+const { user } = storeToRefs(authStore)
+const { currentCommunity } = storeToRefs(communityStore)
+
+const activeMedia = ref<any>(null)
+
+/* VK iframe */
+function vkIframeUrl(link: string) {
+  const match = link.match(/video-?(\d+)_?(\d+)/)
+  if (!match) return ''
+
+  const oid = `-${match[1]}`
+  const id = match[2]
+
+  return `https://vkvideo.ru/video_ext.php?oid=${oid}&id=${id}&autoplay=0`
+}
+
+/* медиа галерея */
+const gallery = computed(() => {
+  if (!currentCommunity.value) return []
+
+  return [
+    {
+      type: "cover",
+      src: currentCommunity.value.cover
+    },
+
+    ...(currentCommunity.value.community_videos || []).map(v => ({
+      type: "video",
+      src: v.vk_video_link
+    })),
+
+    ...(currentCommunity.value.community_photos || []).map(p => ({
+      type: "photo",
+      src: p.image
+    }))
+  ]
+})
+
+watch(
+    currentCommunity,
+    () => {
+      if (currentCommunity.value) {
+        activeMedia.value = {
+          type: "cover",
+          src: currentCommunity.value.cover
+        }
+      }
+    },
+    { immediate: true }
+)
+
+function selectMedia(media: any) {
+  activeMedia.value = media
+}
 </script>
 
 <template>
-  <CardBase padding="md">
-    <img class="h-auto w-full object-cover rounded-2xl mb-6"  :src="currentCommunity?.cover" alt="">
+  <CardBase padding="md" class="mb-4">
 
-      <TypingText20 class="mb-2" :text="currentCommunity?.name" />
+    <!-- MEDIA BLOCK -->
 
-      <div class="flex items-center gap-2 mb-2">
-        <svg width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M8.33333 16.6667C7.18056 16.6667 6.09722 16.4478 5.08333 16.01C4.06945 15.5722 3.1875 14.9786 2.4375 14.2292C1.6875 13.4797 1.09389 12.5978 0.656668 11.5833C0.219446 10.5689 0.00055661 9.48556 1.05485e-06 8.33333C-0.000554501 7.18111 0.218334 6.09778 0.656668 5.08333C1.095 4.06889 1.68861 3.18694 2.4375 2.4375C3.18639 1.68806 4.06833 1.09444 5.08333 0.656667C6.09833 0.218889 7.18167 0 8.33333 0C9.485 0 10.5683 0.218889 11.5833 0.656667C12.5983 1.09444 13.4803 1.68806 14.2292 2.4375C14.9781 3.18694 15.5719 4.06889 16.0108 5.08333C16.4497 6.09778 16.6683 7.18111 16.6667 8.33333C16.665 9.48556 16.4461 10.5689 16.01 11.5833C15.5739 12.5978 14.9803 13.4797 14.2292 14.2292C13.4781 14.9786 12.5961 15.5725 11.5833 16.0108C10.5706 16.4492 9.48722 16.6678 8.33333 16.6667ZM8.33333 15C10.1944 15 11.7708 14.3542 13.0625 13.0625C14.3542 11.7708 15 10.1944 15 8.33333C15 8.23611 14.9967 8.13528 14.99 8.03083C14.9833 7.92639 14.9797 7.83972 14.9792 7.77083C14.9097 8.17361 14.7222 8.50694 14.4167 8.77083C14.1111 9.03472 13.75 9.16667 13.3333 9.16667H11.6667C11.2083 9.16667 10.8161 9.00361 10.49 8.6775C10.1639 8.35139 10.0006 7.95889 10 7.5V6.66667H6.66667V5C6.66667 4.54167 6.83 4.14944 7.15667 3.82333C7.48333 3.49722 7.87556 3.33389 8.33333 3.33333H9.16667C9.16667 3.01389 9.25361 2.73278 9.4275 2.49C9.60139 2.24722 9.81306 2.04917 10.0625 1.89583C9.78472 1.82639 9.50361 1.77083 9.21917 1.72917C8.93472 1.6875 8.63945 1.66667 8.33333 1.66667C6.47222 1.66667 4.89583 2.3125 3.60417 3.60417C2.3125 4.89583 1.66667 6.47222 1.66667 8.33333H5.83333C6.75 8.33333 7.53472 8.65972 8.1875 9.3125C8.84028 9.96528 9.16667 10.75 9.16667 11.6667V12.5H6.66667V14.7917C6.94445 14.8611 7.21889 14.9133 7.49 14.9483C7.76111 14.9833 8.04222 15.0006 8.33333 15Z" fill="black"/>
-        </svg>
-        <p class="text-sm  ">Бесплатная группа</p>
+    <div class="mb-6">
+
+      <div class="rounded-2xl overflow-hidden">
+
+        <!-- PHOTO -->
+        <img
+            v-if="activeMedia?.type === 'photo' || activeMedia?.type === 'cover'"
+            :src="activeMedia.src"
+            class="w-full h-[300px] object-cover"
+        />
+
+        <!-- VIDEO -->
+        <iframe
+            v-else-if="activeMedia?.type === 'video'"
+            :src="vkIframeUrl(activeMedia.src)"
+            width="100%"
+            height="300"
+            allow="autoplay; encrypted-media; fullscreen; picture-in-picture"
+            frameborder="0"
+            allowfullscreen
+        />
+
       </div>
+
+      <!-- THUMBNAILS -->
+
+      <div class="flex gap-2 mt-3 overflow-x-auto">
+
+        <div
+            v-for="(media,index) in gallery"
+            :key="index"
+            @click="selectMedia(media)"
+            class="relative w-[80px] h-[60px] rounded-lg overflow-hidden cursor-pointer border"
+        >
+
+          <img
+              v-if="media.type === 'photo' || media.type === 'cover'"
+              :src="media.src"
+              class="w-full h-full object-cover"
+          />
+
+          <div v-else class="relative w-full h-full">
+
+            <img
+                :src="currentCommunity.cover"
+                class="w-full h-full object-cover"
+            />
+
+            <div
+                class="absolute inset-0 flex items-center justify-center text-white text-lg"
+            >
+              ▶
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- TITLE -->
+
+    <TypingText20 class="mb-2" :text="currentCommunity?.name"/>
+
+    <!-- MEMBERS -->
+
     <div class="flex items-center gap-2 mb-2">
-      <svg width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M8.33333 16.6667C7.18056 16.6667 6.09722 16.4478 5.08333 16.01C4.06945 15.5722 3.1875 14.9786 2.4375 14.2292C1.6875 13.4797 1.09389 12.5978 0.656668 11.5833C0.219446 10.5689 0.00055661 9.48556 1.05485e-06 8.33333C-0.000554501 7.18111 0.218334 6.09778 0.656668 5.08333C1.095 4.06889 1.68861 3.18694 2.4375 2.4375C3.18639 1.68806 4.06833 1.09444 5.08333 0.656667C6.09833 0.218889 7.18167 0 8.33333 0C9.485 0 10.5683 0.218889 11.5833 0.656667C12.5983 1.09444 13.4803 1.68806 14.2292 2.4375C14.9781 3.18694 15.5719 4.06889 16.0108 5.08333C16.4497 6.09778 16.6683 7.18111 16.6667 8.33333C16.665 9.48556 16.4461 10.5689 16.01 11.5833C15.5739 12.5978 14.9803 13.4797 14.2292 14.2292C13.4781 14.9786 12.5961 15.5725 11.5833 16.0108C10.5706 16.4492 9.48722 16.6678 8.33333 16.6667ZM8.33333 15C10.1944 15 11.7708 14.3542 13.0625 13.0625C14.3542 11.7708 15 10.1944 15 8.33333C15 8.23611 14.9967 8.13528 14.99 8.03083C14.9833 7.92639 14.9797 7.83972 14.9792 7.77083C14.9097 8.17361 14.7222 8.50694 14.4167 8.77083C14.1111 9.03472 13.75 9.16667 13.3333 9.16667H11.6667C11.2083 9.16667 10.8161 9.00361 10.49 8.6775C10.1639 8.35139 10.0006 7.95889 10 7.5V6.66667H6.66667V5C6.66667 4.54167 6.83 4.14944 7.15667 3.82333C7.48333 3.49722 7.87556 3.33389 8.33333 3.33333H9.16667C9.16667 3.01389 9.25361 2.73278 9.4275 2.49C9.60139 2.24722 9.81306 2.04917 10.0625 1.89583C9.78472 1.82639 9.50361 1.77083 9.21917 1.72917C8.93472 1.6875 8.63945 1.66667 8.33333 1.66667C6.47222 1.66667 4.89583 2.3125 3.60417 3.60417C2.3125 4.89583 1.66667 6.47222 1.66667 8.33333H5.83333C6.75 8.33333 7.53472 8.65972 8.1875 9.3125C8.84028 9.96528 9.16667 10.75 9.16667 11.6667V12.5H6.66667V14.7917C6.94445 14.8611 7.21889 14.9133 7.49 14.9483C7.76111 14.9833 8.04222 15.0006 8.33333 15Z" fill="black"/>
-      </svg>
-      <p class="text-sm  ">{{currentCommunity?.members_count}} подписчиков</p>
+      <p class="text-sm">
+        {{ currentCommunity?.members_count }} подписчиков
+      </p>
     </div>
+
+    <!-- LINK -->
+
     <div class="mb-3">
-      <UILink show_copy_icon external_link :label="`@${currentCommunity.slug}`" :link="`https://viberoom.org/group/${currentCommunity.slug}`"/>
+      <UILink
+          show_copy_icon
+          external_link
+          :label="`@${currentCommunity.slug}`"
+          :link="`https://viberoom.org/group/${currentCommunity.slug}`"
+      />
     </div>
+
+    <!-- COMMUNITY LINKS -->
 
     <div class="space-y-2">
-      <UILink v-for="link in currentCommunity.community_links" show_link_icon external_link :label="link.title" :link="link.url"/>
+      <UILink
+          v-for="link in currentCommunity.community_links"
+          :key="link.url"
+          show_link_icon
+          external_link
+          :label="link.title"
+          :link="link.url"
+      />
     </div>
-     <div class="mt-6">
-       <p class="font-semibold mb-3">О группе</p>
-       <div class="leading-[130%]" v-html="currentCommunity?.long_description"></div>
-     </div>
 
-    <div v-if="user" class="block md:hidden mt-3">
-      <UIButton v-if="!currentCommunity.is_member" @click="join" label="Вступить" extra-class="w-full"/>
-      <UIButton v-else  label="Выйти" extra-class="w-full"/>
+    <!-- ABOUT -->
+
+    <div class="mt-6">
+      <p class="font-semibold mb-3">О группе</p>
+      <div class="leading-[130%]" v-html="currentCommunity?.long_description"/>
     </div>
+
+
+    <!-- JOIN BUTTON -->
+
+    <div v-if="user" class="block md:hidden mt-4">
+
+      <UIButton
+          v-if="!currentCommunity.is_member"
+          label="Вступить"
+          extra-class="w-full"
+      />
+
+      <UIButton
+          v-else
+          label="Выйти"
+          extra-class="w-full"
+      />
+
+    </div>
+
+  </CardBase>
+  <CardBase padding="md">
+    <p class="font-bold text-xl mb-3">Правила</p>
+    <Accordion >
+      <AccordionPanel :value="index" v-for="(rule,index) in currentCommunity.community_rules"
+                      :key="index">
+        <AccordionHeader>{{rule.title}}</AccordionHeader>
+        <AccordionContent>
+          <p class="m-0">{{rule.text}}</p>
+        </AccordionContent>
+      </AccordionPanel>
+
+    </Accordion>
   </CardBase>
 </template>
-
-<style scoped>
-
-</style>

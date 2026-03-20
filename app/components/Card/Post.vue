@@ -115,7 +115,7 @@ watch(() => props.post, (p) => { localPost.value = { ...p } }, { deep: true })
     </div>
 
     <!-- заголовок -->
-    <h3 class="font-semibold text-[20px] leading-[130%] mb-6">{{ localPost.title }}</h3>
+<!--    <h3 class="font-semibold text-[20px] leading-[130%] mb-6">{{ localPost.title }}</h3>-->
 
     <!-- текст (свёрнутый) -->
     <UIExpandableContent :content="localPost.text" />

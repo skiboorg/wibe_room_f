@@ -161,15 +161,15 @@ function formatDate(d: string) {
       :visible="true"
       modal
       :closable="false"
-      :style="{ width: '640px', maxWidth: '96vw', padding: 0 }"
+      :style="{ width: '640px' }"
       :pt="{
-      root: { class: 'rounded-2xl overflow-hidden' },
+      root: { class: 'rounded-2xl overflow-hidden !max-w-[96vw] w-full mx-2' },
       header: { class: 'hidden' },
-      content: { class: 'p-0' },
+      content: { class: 'p-0 overflow-hidden' },
       footer: { class: 'hidden' },
     }"
   >
-    <div class="flex flex-col" style="max-height: 90vh;">
+    <div class="flex flex-col h-[90vh] max-h-[90vh] w-full overflow-hidden">
 
       <!-- ── шапка диалога ─────────────────────────────────── -->
       <div class="flex items-center justify-between px-5 py-4 border-b border-[#E2E4E9]">
@@ -186,19 +186,19 @@ function formatDate(d: string) {
       </div>
 
       <!-- ── тело поста + комментарии (скролл) ────────────── -->
-      <div class="overflow-y-auto flex-1 px-5 py-4 space-y-5">
+      <div class="overflow-y-auto overflow-x-hidden flex-1 min-h-0 px-5 py-4 space-y-5 w-full">
 
         <!-- контент поста -->
         <div>
           <img v-for="photo in post.photos" :key="photo.id"
-               class="rounded-lg w-full h-auto block mb-3" :src="photo.image" alt="" />
+               class="rounded-lg w-full max-h-[40vh] object-contain block mb-3 bg-gray-50" :src="photo.image" alt="" />
 
           <div class="flex flex-wrap gap-2 mb-3">
             <UIBadge v-for="tag in post.post_tags" :key="tag.id" :label="tag.name" />
           </div>
 
           <h3 class="font-semibold text-[18px] leading-[130%] mb-3">{{ post.title }}</h3>
-          <div class="prose prose-sm max-w-none text-gray-700" v-html="post.text" />
+          <div class="prose prose-sm max-w-full w-full break-words overflow-hidden text-gray-700" v-html="post.text" />
         </div>
 
         <div class="border-t border-[#E2E4E9]" />

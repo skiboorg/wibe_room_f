@@ -11,7 +11,7 @@ const {currentCommunity} = communityStore
 const {data:tags} = useHttpRequest( useAsyncData(()=>$api.community.post_tags(currentCommunity.slug)))
 // Reactive data
 const formData = ref<Post>({
-  title: '',
+  title: 'title',
   community: currentCommunity?.id | null,
   post_tags:[],
   vk_video_link: '',
@@ -129,16 +129,16 @@ onUnmounted(() => {
     <h2 class="text-2xl font-bold mb-6">Создание новой записи</h2>
 
     <form @submit.prevent="handleSubmit" class="space-y-6">
-      <!-- Заголовок -->
-      <UIInput
-          id="title"
-          v-model="formData.title"
-          label="Заголовок *"
-          placeholder="Введите заголовок записи"
-          :fluid="true"
-          :error="errors.title"
-          @blur="validateField('title')"
-      />
+<!--      &lt;!&ndash; Заголовок &ndash;&gt;-->
+<!--      <UIInput-->
+<!--          id="title"-->
+<!--          v-model="formData.title"-->
+<!--          label="Заголовок *"-->
+<!--          placeholder="Введите заголовок записи"-->
+<!--          :fluid="true"-->
+<!--          :error="errors.title"-->
+<!--          @blur="validateField('title')"-->
+<!--      />-->
 
       <!-- Выбор сообщества -->
       <div class="w-full">

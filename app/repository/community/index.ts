@@ -38,6 +38,9 @@ export function createCommunityRepository(appFetch: typeof $fetch) {
         join() {
             return appFetch<MembersResult[]>(`/api/communities/${currentCommunity.value.slug}/join/`, { method: 'post' })
         },
+        leave() {
+            return appFetch(`/api/communities/${currentCommunity.value.slug}/leave/`, { method: 'post' })
+        },
 
         // ── посты ─────────────────────────────────────────────
         posts(params: { query: Record<string, any> }) {

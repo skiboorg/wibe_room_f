@@ -134,11 +134,12 @@ function formatCount(n: number): string {
     <UIExpandableContent :content="localPost.text" />
 
     <!-- панель действий -->
-    <div class="flex items-center gap-3 mt-4 pt-4 border-t border-[#E2E4E9] text-[#8D95A5]">
+    <div class="grid grid-cols-3 md:flex  items-center gap-3 mt-4 pt-4 border-t border-[#E2E4E9] text-[#8D95A5]">
 
       <!-- лайк: кнопка с рамкой + счётчик отдельно -->
+
       <button
-          class="flex items-center gap-2 px-3 py-1.5 rounded-lg border transition-colors text-sm font-medium"
+          class="w-fit flex items-center gap-2 px-3 py-1.5 rounded-lg border transition-colors text-sm font-medium"
           :class="myLike
           ? 'border-red-300 text-red-500 bg-red-50'
           : 'border-[#E2E4E9] text-[#8D95A5] hover:border-gray-400 hover:text-gray-600'"
@@ -150,25 +151,26 @@ function formatCount(n: number): string {
         </svg>
 
         <span>Лайк</span>
+        <span class="inline-block  md:hidden text-sm font-medium text-[#8D95A5]">{{ formatCount(likesCount) }}</span>
       </button>
 
       <!-- разделитель + счётчик лайков -->
-      <span class="text-sm font-medium text-[#8D95A5]">{{ formatCount(likesCount) }}</span>
+      <span class="hidden md:inline-block text-sm font-medium text-[#8D95A5]">{{ formatCount(likesCount) }}</span>
 
       <!-- комментарии -->
       <button
           class="flex items-center gap-2 text-sm text-[#8D95A5] hover:text-gray-600 transition-colors ml-1"
           @click="openDialog"
       >
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <svg class="hidden md:inline-block" width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"
                 stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>
         </svg>
-        <span>{{ formatCount(localPost.comments_count ?? 0) }} комментариев</span>
+        <span class="text-xs md:text-sm ">{{ formatCount(localPost.comments_count ?? 0) }} комментариев</span>
       </button>
 
       <!-- просмотры — справа -->
-      <span v-if="localPost.views" class="ml-auto text-sm text-[#8D95A5]">
+      <span v-if="localPost.views" class="ml-auto text-xs md:text-sm text-[#8D95A5]">
         {{ formatCount(localPost.views) }} просмотров
       </span>
     </div>

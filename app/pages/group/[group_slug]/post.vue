@@ -276,7 +276,7 @@ onUnmounted(() => {
         <Button
             label="Отмена"
             severity="secondary"
-            @click="$emit('cancel')"
+            @click="$router.back()"
         />
         <Button
             type="submit"

@@ -4,7 +4,7 @@ const authStore = useAuthStore()
 
 const { user } = storeToRefs(authStore)
 const { currentCommunity } = storeToRefs(communityStore)
-
+const {$api} = useNuxtApp()
 const activeMedia = ref<any>(null)
 
 /* VK iframe */
@@ -17,7 +17,24 @@ function vkIframeUrl(link: string) {
 
   return `https://vkvideo.ru/video_ext.php?oid=${oid}&id=${id}&autoplay=0`
 }
-
+const join = async () => {
+  await $api.community.join()
+  window.location.reload()
+}
+const leaving = ref(false)
+const confirmLeave = ref(false)
+const leave = async () => {
+  leaving.value = true
+  try {
+    await $api.community.leave()
+    window.location.reload()
+  } catch (e) {
+    console.error(e)
+  } finally {
+    leaving.value = false
+    confirmLeave.value = false
+  }
+}
 /* медиа галерея */
 const gallery = computed(() => {
   if (!currentCommunity.value) return []
@@ -176,14 +193,39 @@ function selectMedia(media: any) {
       <UIButton
           v-if="!currentCommunity.is_member"
           label="Вступить"
+          @click="join"
           extra-class="w-full"
       />
 
-      <UIButton
-          v-else
-          label="Выйти"
-          extra-class="w-full"
-      />
+      <template v-else-if="!currentCommunity.is_owner">
+        <UIButton
+            v-if="!confirmLeave"
+            @click="confirmLeave = true"
+            label="Выйти из группы"
+            variant="outline"
+            extra-class="w-full text-gray-500"
+        />
+        <!-- подтверждение -->
+        <div v-else class="space-y-2">
+          <p class="text-sm text-center text-gray-500">Вы уверены?</p>
+          <div class="flex gap-2">
+            <button
+                class="flex-1 py-2 rounded-lg border border-[#E2E4E9] text-sm hover:bg-[#F7F8FA] transition-colors"
+                @click="confirmLeave = false"
+            >
+              Отмена
+            </button>
+            <button
+                class="flex-1 py-2 rounded-lg bg-red-500 text-white text-sm hover:bg-red-600 transition-colors disabled:opacity-50"
+                :disabled="leaving"
+                @click="leave"
+            >
+              <i v-if="leaving" class="pi pi-spin pi-spinner mr-1 text-xs" />
+              Выйти
+            </button>
+          </div>
+        </div>
+      </template>
 
     </div>
 

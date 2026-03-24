@@ -29,6 +29,17 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
         } else {
             console.log('Using cached community data for slug:', slug)
         }
+        // Редирект на /about если юзер не участник и не владелец
+        const community = communityStore.currentCommunity
+        const aboutPath = `/group/${slug}/about`
+        if (
+            community &&
+            !community.is_member &&
+            !community.is_owner &&
+            to.path !== aboutPath
+        ) {
+            return navigateTo(aboutPath)
+        }
     }
 
     if (from.path.includes('/group/') && !to.path.includes('/group/')) {

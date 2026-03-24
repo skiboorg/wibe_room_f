@@ -1,5 +1,5 @@
 import {useAuthStore} from "~/stores/auth";
-import type {User} from "~/repository/auth/types";
+import type {PostCommentWithContext, ShortCommunity, User} from "~/repository/auth/types";
 
 export function createAuthRepository(appFetch: typeof $fetch){
     const {setUser} = useAuthStore()
@@ -47,6 +47,13 @@ export function createAuthRepository(appFetch: typeof $fetch){
                 method: 'POST',
                 body
             })
+        },
+
+        my_comments(){
+            return appFetch<PostCommentWithContext[]>('/api/user/my_comments/')
+        },
+        my_communities(){
+            return appFetch<ShortCommunity[]>('/api/user/my_communities/')
         },
 
     }

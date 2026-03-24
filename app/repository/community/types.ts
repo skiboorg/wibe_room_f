@@ -94,6 +94,7 @@ export interface Post {
     reactions_count?: Record<string, number>
     my_reaction?: string | null
     comments_count?: number
+    views?: number
     new_tags?: any[]
 }
 

@@ -10,6 +10,12 @@ const emits = defineEmits(['delete-post', 'post-updated'])
 // ── диалог комментариев ───────────────────────────────────────
 const dialogVisible = ref(false)
 
+function openDialog() {
+  $api.community.post_view(localPost.value.id!)
+  localPost.value.views = (localPost.value.views ?? 0) + 1
+  dialogVisible.value = true
+}
+
 // ── реакция (toggle лайк) ─────────────────────────────────────
 const { $api } = useNuxtApp()
 const localPost = ref({ ...props.post })
@@ -19,6 +25,8 @@ const myLike = computed(() => localPost.value.my_reaction === 'like')
 
 async function toggleLike() {
   try {
+    // лайк считается просмотром
+    $api.community.post_view(localPost.value.id!)
     await $api.community.post_react(localPost.value.id!, 'like')
     // обновляем локально оптимистично
     if (myLike.value) {
@@ -65,6 +73,11 @@ const toggle = (event: Event) => menu.value.toggle(event)
 
 // синхронизируем если пост пришёл снаружи заново
 watch(() => props.post, (p) => { localPost.value = { ...p } }, { deep: true })
+
+function formatCount(n: number): string {
+  if (n >= 1000) return (n / 1000).toLocaleString('ru-RU', { maximumFractionDigits: 1 }) + 'k'
+  return String(n)
+}
 </script>
 
 <template>
@@ -115,39 +128,49 @@ watch(() => props.post, (p) => { localPost.value = { ...p } }, { deep: true })
     </div>
 
     <!-- заголовок -->
-<!--    <h3 class="font-semibold text-[20px] leading-[130%] mb-6">{{ localPost.title }}</h3>-->
+    <h3 class="font-semibold text-[20px] leading-[130%] mb-6">{{ localPost.title }}</h3>
 
     <!-- текст (свёрнутый) -->
     <UIExpandableContent :content="localPost.text" />
 
     <!-- панель действий -->
-    <div class="flex gap-4 mt-4 pt-4 border-t border-[#E2E4E9]">
-      <!-- лайк -->
+    <div class="flex items-center gap-3 mt-4 pt-4 border-t border-[#E2E4E9] text-[#8D95A5]">
+
+      <!-- лайк: кнопка с рамкой + счётчик отдельно -->
       <button
-          class="flex gap-2 items-center text-sm transition-colors"
-          :class="myLike ? 'text-red-500' : 'text-gray-500 hover:text-red-400'"
+          class="flex items-center gap-2 px-3 py-1.5 rounded-lg border transition-colors text-sm font-medium"
+          :class="myLike
+          ? 'border-red-300 text-red-500 bg-red-50'
+          : 'border-[#E2E4E9] text-[#8D95A5] hover:border-gray-400 hover:text-gray-600'"
           @click="toggleLike"
       >
-        <svg width="21" height="19" viewBox="0 0 21 19" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M3.10961 11.3496C7.60961 16.5996 10.2346 18.0996 10.2346 18.0996C10.2346 18.0996 12.8596 16.5996 17.3596 11.3496C21.8596 6.09961 18.8596 0.849609 15.1096 0.849609C11.3596 0.849609 10.2346 5.34961 10.2346 5.34961C10.2346 5.34961 9.10961 0.849609 5.35961 0.849609C1.60961 0.849609 -1.39039 6.09961 3.10961 11.3496Z"
-                :fill="myLike ? '#ef4444' : 'none'"
-                :stroke="myLike ? '#ef4444' : 'currentColor'"
-                stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>
+        <!-- иконка большой палец -->
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M11.75 4.00049C11.75 3.75737 11.6534 3.52396 11.4814 3.35205C11.3095 3.18014 11.0761 3.0835 10.833 3.0835C10.5901 3.08358 10.3574 3.18032 10.1855 3.35205C10.0136 3.52396 9.91699 3.75737 9.91699 4.00049V4.8335C9.91699 5.91646 9.48648 6.95542 8.7207 7.72119C8.13411 8.30771 7.38705 8.69597 6.58301 8.84619V13.1665C6.58301 13.6305 6.76772 14.0757 7.0957 14.4038C7.42382 14.7319 7.869 14.9164 8.33301 14.9165H14.167L14.2305 14.9194C14.3316 14.928 14.4809 14.8946 14.6553 14.7202C14.8342 14.5412 15.0036 14.2425 15.0996 13.8423L15.9131 9.7749C15.8989 9.55322 15.8065 9.34308 15.6484 9.18506C15.4765 9.01315 15.2431 8.9165 15 8.9165H12.5C12.0858 8.9165 11.75 8.58072 11.75 8.1665V4.00049ZM3.25 14.8335C3.25 14.8555 3.25889 14.8765 3.27441 14.8921C3.28996 14.9076 3.31102 14.9164 3.33301 14.9165H5C5.0221 14.9165 5.04297 14.9077 5.05859 14.8921C5.07422 14.8765 5.08301 14.8556 5.08301 14.8335V8.9165H3.33301C3.3111 8.91659 3.28995 8.92547 3.27441 8.94092C3.25879 8.95655 3.25 8.97839 3.25 9.00049V14.8335ZM13.25 7.4165H15C15.6409 7.4165 16.2558 7.6713 16.709 8.12451C17.1622 8.57772 17.417 9.19256 17.417 9.8335C17.417 9.88288 17.412 9.93253 17.4023 9.98096L16.5684 14.147C16.5667 14.155 16.5654 14.1634 16.5635 14.1714C16.4192 14.7867 16.1361 15.3615 15.7158 15.7817C15.3038 16.1936 14.7621 16.446 14.167 16.4155V16.4165H8.33301C7.59674 16.4164 6.8868 16.1662 6.31543 15.7134C6.25833 15.7988 6.19284 15.8789 6.11914 15.9526C5.82221 16.2496 5.41992 16.4165 5 16.4165H3.33301C2.9132 16.4164 2.51072 16.2495 2.21387 15.9526C1.91704 15.6557 1.75 15.2533 1.75 14.8335V9.00049C1.75 8.58056 1.91693 8.1773 2.21387 7.88037C2.51071 7.58362 2.91328 7.41659 3.33301 7.4165H5.83301C6.51807 7.4165 7.1757 7.14501 7.66016 6.66064C8.14462 6.17618 8.41699 5.51864 8.41699 4.8335V4.00049C8.41699 3.3597 8.67101 2.74469 9.12402 2.2915C9.57716 1.83837 10.1922 1.58358 10.833 1.5835C11.4739 1.5835 12.0888 1.83829 12.542 2.2915C12.9952 2.74472 13.25 3.35955 13.25 4.00049V7.4165Z" fill="#8D95A5"/>
         </svg>
-        <span>{{ likesCount }}</span>
+
+        <span>Лайк</span>
       </button>
 
-      <!-- комментарии — открывает диалог -->
+      <!-- разделитель + счётчик лайков -->
+      <span class="text-sm font-medium text-[#8D95A5]">{{ formatCount(likesCount) }}</span>
+
+      <!-- комментарии -->
       <button
-          class="flex gap-2 items-center text-sm text-gray-500 hover:text-black transition-colors"
-          @click="dialogVisible = true"
+          class="flex items-center gap-2 text-sm text-[#8D95A5] hover:text-gray-600 transition-colors ml-1"
+          @click="openDialog"
       >
-        <svg width="20" height="21" viewBox="0 0 20 21" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M4.8501 0.849609C3.78923 0.849609 2.77182 1.27104 2.02167 2.02118C1.27153 2.77133 0.850098 3.78874 0.850098 4.84961V11.0576C0.850098 12.1185 1.27153 13.1359 2.02167 13.886C2.77182 14.6362 3.78923 15.0576 4.8501 15.0576H4.9431V18.8496C4.94301 18.9468 4.97126 19.042 5.02439 19.1234C5.07752 19.2048 5.15323 19.2689 5.24226 19.308C5.33128 19.347 5.42976 19.3593 5.52564 19.3432C5.62152 19.3272 5.71064 19.2835 5.7821 19.2176L10.3021 15.0576H14.6711C15.732 15.0576 16.7494 14.6362 17.4995 13.886C18.2497 13.1359 18.6711 12.1185 18.6711 11.0576V4.84961C18.6711 3.78874 18.2497 2.77133 17.4995 2.02118C16.7494 1.27104 15.732 0.849609 14.6711 0.849609H4.8501Z"
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"
                 stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>
         </svg>
-        <span>{{ localPost.comments_count ?? 0 }}</span>
+        <span>{{ formatCount(localPost.comments_count ?? 0) }} комментариев</span>
       </button>
+
+      <!-- просмотры — справа -->
+      <span v-if="localPost.views" class="ml-auto text-sm text-[#8D95A5]">
+        {{ formatCount(localPost.views) }} просмотров
+      </span>
     </div>
   </CardBase>
 

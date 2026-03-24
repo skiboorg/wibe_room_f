@@ -53,6 +53,12 @@ export function createCommunityRepository(appFetch: typeof $fetch) {
         post_delete(params: { id: number }) {
             return appFetch(`/api/communities/${currentCommunity.value.slug}/posts/${params.id}/`, { method: 'delete' })
         },
+        // ── просмотры ─────────────────────────────────────────
+        post_view(postId: number) {
+            return appFetch(`/api/communities/${currentCommunity.value.slug}/posts/${postId}/view/`, {
+                method: 'post',
+            })
+        },
 
         // ── реакция на пост (toggle) ──────────────────────────
         post_react(postId: number, reaction: string) {

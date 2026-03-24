@@ -11,7 +11,7 @@ const {currentCommunity} = communityStore
 const {data:tags} = useHttpRequest( useAsyncData(()=>$api.community.post_tags(currentCommunity.slug)))
 // Reactive data
 const formData = ref<Post>({
-  title: 'title',
+  title: '',
   community: currentCommunity?.id | null,
   post_tags:[],
   vk_video_link: '',
@@ -33,9 +33,9 @@ const errors = reactive({
 // Methods
 const validateField = (field: keyof typeof errors) => {
   switch (field) {
-    case 'title':
-      errors.title = formData.value.title.trim() ? '' : 'Заголовок обязателен'
-      break
+    // case 'title':
+    //   errors.title = formData.value.title.trim() ? '' : 'Заголовок обязателен'
+    //   break
     case 'text':
       errors.text = formData.value.text.trim() ? '' : 'Текст записи обязателен'
       break

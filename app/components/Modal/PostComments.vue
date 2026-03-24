@@ -163,10 +163,10 @@ function formatDate(d: string) {
       :closable="false"
       :style="{ width: '640px' }"
       :pt="{
-      root: { class: 'rounded-2xl overflow-hidden !max-w-[96vw] w-full mx-2' },
-      header: { class: 'hidden' },
-      content: { class: 'p-0 overflow-hidden' },
-      footer: { class: 'hidden' },
+      root: { class: 'rounded-2xl !max-w-[96vw] w-full mx-2', style: 'overflow: hidden;' },
+      header: { class: 'hidden', style: 'display: none;' },
+      content: { class: 'p-0', style: 'overflow: hidden; padding: 0;' },
+      footer: { class: 'hidden', style: 'display: none;' },
     }"
   >
     <div class="flex flex-col h-[90vh] max-h-[90vh] w-full overflow-hidden">

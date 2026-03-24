@@ -1,5 +1,7 @@
 <script setup lang="ts">
 import type { Post } from '~/repository/community/types'
+const communityStore = useCommunityStore()
+const { currentCommunity } = storeToRefs(communityStore)
 
 const props = defineProps<{
   post: Post
@@ -11,6 +13,7 @@ const emits = defineEmits(['delete-post', 'post-updated'])
 const dialogVisible = ref(false)
 
 function openDialog() {
+  if (!currentCommunity.value.is_member) return
   $api.community.post_view(localPost.value.id!)
   localPost.value.views = (localPost.value.views ?? 0) + 1
   dialogVisible.value = true
@@ -24,6 +27,7 @@ const likesCount = computed(() => localPost.value.reactions_count?.like ?? 0)
 const myLike = computed(() => localPost.value.my_reaction === 'like')
 
 async function toggleLike() {
+  if (!currentCommunity.value.is_member) return
   try {
     // лайк считается просмотром
     $api.community.post_view(localPost.value.id!)

@@ -19,7 +19,7 @@ function vkIframeUrl(link: string) {
 }
 const join = async () => {
   await $api.community.join()
-  window.location.reload()
+  window.location.href = `/group/${currentCommunity.value.slug}/about`
 }
 const leaving = ref(false)
 const confirmLeave = ref(false)
@@ -27,7 +27,7 @@ const leave = async () => {
   leaving.value = true
   try {
     await $api.community.leave()
-    window.location.reload()
+    window.location.href = `/group/${currentCommunity.value.slug}/about`
   } catch (e) {
     console.error(e)
   } finally {

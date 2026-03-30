@@ -56,6 +56,21 @@ export function createCommunityRepository(appFetch: typeof $fetch) {
         post_delete(params: { id: number }) {
             return appFetch(`/api/communities/${currentCommunity.value.slug}/posts/${params.id}/`, { method: 'delete' })
         },
+
+        // ── избранное ─────────────────────────────────────────
+        toggle_favorite_product(productId: number) {
+            return appFetch<{ is_favorite: boolean }>('/api/favorites/toggle_product/', {
+                method: 'post',
+                body: { product_id: productId },
+            })
+        },
+        toggle_favorite_event(eventId: number) {
+            return appFetch<{ is_favorite: boolean }>('/api/favorites/toggle_event/', {
+                method: 'post',
+                body: { event_id: eventId },
+            })
+        },
+
         // ── просмотры ─────────────────────────────────────────
         post_view(postId: number) {
             return appFetch(`/api/communities/${currentCommunity.value.slug}/posts/${postId}/view/`, {
@@ -94,6 +109,9 @@ export function createCommunityRepository(appFetch: typeof $fetch) {
                 method: 'post',
                 body: { reaction },
             })
+        },
+        comment_delete(commentId: number) {
+            return appFetch(`/api/comments/${commentId}/`, { method: 'delete' })
         },
 
         // ── продукты ──────────────────────────────────────────

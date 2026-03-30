@@ -1,5 +1,5 @@
 import {useAuthStore} from "~/stores/auth";
-import type {PostCommentWithContext, ShortCommunity, User} from "~/repository/auth/types";
+import type {User, PostCommentWithContext, ShortCommunity, FavoriteProduct, FavoriteEvent} from "~/repository/auth/types";
 
 export function createAuthRepository(appFetch: typeof $fetch){
     const {setUser} = useAuthStore()
@@ -32,31 +32,29 @@ export function createAuthRepository(appFetch: typeof $fetch){
         },
         async me(){
             try{
-                const response =  await appFetch<User>('/api/user/me')
-
+                const response = await appFetch<User>('/api/user/me')
                 setUser(response)
             }catch(error){
                 console.log(error)
-                //authCookie.value = null
-                //window.location.reload()
             }
         },
-
-        reset_password(body){
+        reset_password(body: any){
             return appFetch('/api/user/reset_password',{
                 method: 'POST',
                 body
             })
         },
-
         my_comments(){
             return appFetch<PostCommentWithContext[]>('/api/user/my_comments/')
         },
         my_communities(){
             return appFetch<ShortCommunity[]>('/api/user/my_communities/')
         },
-
+        favorites_products(){
+            return appFetch<FavoriteProduct[]>('/api/favorites/products/')
+        },
+        favorites_events(){
+            return appFetch<FavoriteEvent[]>('/api/favorites/events/')
+        },
     }
 }
-
-

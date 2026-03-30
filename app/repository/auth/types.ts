@@ -24,7 +24,38 @@ export interface PostCommentWithContext {
     community_slug: string
     community_cover: string | null
 }
+export interface FavoriteProduct {
+    id: number
+    product: {
+        id: number
+        title: string
+        slug: string
+        cover: string
+        short_description: string
+        price: string
+        is_favorite: boolean
+    }
+    community_slug: string
+    community_name: string
+    created_at: string
+}
 
+export interface FavoriteEvent {
+    id: number
+    event: {
+        id: number
+        title: string
+        slug: string
+        cover: string
+        short_description: string
+        start_date: string
+        time_text: string
+        is_favorite: boolean
+    }
+    community_slug: string
+    community_name: string
+    created_at: string
+}
 export interface ShortCommunity {
     id: number
     name: string

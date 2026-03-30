@@ -11,7 +11,7 @@ const {data:product, refresh, status} = useHttpRequest( useAsyncData(()=>$api.co
 
 <template>
 
-    <CardBase padding="md">
+    <CardBase v-if="product" padding="md">
       <img class="h-[300px] w-full object-cover rounded-2xl mb-6"  :src="product?.cover" alt="">
 
       <TypingText20 class="mb-2" :text="product?.title"/>

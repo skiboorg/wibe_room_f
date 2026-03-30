@@ -42,7 +42,7 @@ const sizeClasses: Record<string, string> = {
   md: 'px-5 py-3',
 }
 const variantClasses: Record<string, string> = {
-  filled: 'bg-[#E9B458]  font-medium border border-[##4A452]',
+  filled: 'bg-[#006AFE] text-white  border border-[##4A452]',
   black: 'bg-black text-white  font-medium border border-black',
   white: 'bg-white   font-medium border border-white',
   outline: 'border border-[#C6CAD2]',

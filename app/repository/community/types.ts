@@ -123,6 +123,7 @@ export interface PostComment {
     reactions_count?: Record<string, number>
     my_reaction?: string | null
     is_own?: boolean
+    can_delete?: boolean
 }
 
 export interface CommentReaction {
@@ -149,6 +150,7 @@ export interface Product {
     short_description: string
     price: string
     product_info: string
+    is_favorite?: boolean
 }
 
 export interface EventResponse {
@@ -164,6 +166,7 @@ export interface Event {
     slug: string
     cover: string
     short_description: string
+    is_favorite?: boolean
 }
 
 export interface MembersResult {

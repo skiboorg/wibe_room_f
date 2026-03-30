@@ -149,6 +149,25 @@ async function submitReply() {
   }
 }
 
+// ── удаление комментария ──────────────────────────────────────
+async function deleteComment(comment: PostComment) {
+  try {
+    await $api.community.comment_delete(comment.id)
+    const idx = comments.value.findIndex(c => c.id === comment.id)
+    if (idx !== -1) {
+      comments.value.splice(idx, 1)
+    } else {
+      // это ответ — ищем в replies
+      for (const c of comments.value) {
+        const rIdx = c.replies?.findIndex(r => r.id === comment.id) ?? -1
+        if (rIdx !== -1) { c.replies!.splice(rIdx, 1); break }
+      }
+    }
+  } catch (e) {
+    console.error(e)
+  }
+}
+
 // ── форматирование даты ───────────────────────────────────────
 function formatDate(d: string) {
   return new Date(d).toLocaleString('ru-RU', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' })
@@ -243,6 +262,13 @@ function formatDate(d: string) {
                   >
                     Ответить
                   </button>
+                  <button
+                      v-if="comment.can_delete"
+                      class="text-xs text-red-400 hover:text-red-600 transition-colors ml-auto"
+                      @click="deleteComment(comment)"
+                  >
+                    Удалить
+                  </button>
                 </div>
 
                 <!-- вложенные ответы -->
@@ -266,6 +292,13 @@ function formatDate(d: string) {
                         >
                           <i class="pi pi-heart-fill text-[10px]" />
                           <span>{{ reply.reactions_count?.like ?? 0 }}</span>
+                        </button>
+                        <button
+                            v-if="reply.can_delete"
+                            class="text-xs text-red-400 hover:text-red-600 transition-colors ml-auto"
+                            @click="deleteComment(reply)"
+                        >
+                          Удалить
                         </button>
                       </div>
                     </div>
@@ -297,8 +330,9 @@ function formatDate(d: string) {
             <textarea
                 v-model="newCommentText"
                 placeholder="Написать комментарий..."
-                rows="1"
-                class="flex-1 resize-none outline-none text-sm bg-transparent leading-5 max-h-24 overflow-y-auto"
+                rows="2"
+                class="flex-1 resize-none outline-none text-sm bg-transparent leading-5 max-h-32 overflow-y-auto"
+                @input="($event.target as HTMLTextAreaElement).style.height = 'auto'; ($event.target as HTMLTextAreaElement).style.height = ($event.target as HTMLTextAreaElement).scrollHeight + 'px'"
                 @keydown.enter.exact.prevent="submitComment"
             />
             <!-- кнопка прикрепить фото -->

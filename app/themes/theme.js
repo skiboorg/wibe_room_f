@@ -4,45 +4,45 @@ import Aura from '@primeuix/themes/lara';
 const CompactLight = definePreset(Aura, {
     semantic: {
         primary: {
-            50: '#fffbeb',
-            100: '#fef3c7',
-            200: '#fde68a',
-            300: '#fcd34d',
-            400: '#fbbf24',
-            500: '#f59e0b', // основной
-            600: '#d97706',
-            700: '#b45309',
-            800: '#92400e',
-            900: '#78350f',
-            950: '#451a03'
+            50:  '#e6f0ff',
+            100: '#cce1ff',
+            200: '#99c3ff',
+            300: '#66a5ff',
+            400: '#3387ff',
+            500: '#006AFE', // основной
+            600: '#0055cb',
+            700: '#004099',
+            800: '#002b66',
+            900: '#001533',
+            950: '#000a1a'
         },
         colorScheme: {
             light: {
                 primary: {
-                    color: '#f59e0b',          // основной цвет
+                    color: '#006AFE',
                     inverseColor: '#ffffff',
-                    hoverColor: '#d97706',
-                    activeColor: '#b45309'
+                    hoverColor: '#0055cb',
+                    activeColor: '#004099'
                 },
                 highlight: {
-                    background: '#fef3c7',
-                    focusBackground: '#fde68a',
-                    color: '#78350f',
-                    focusColor: '#78350f'
+                    background: '#e6f0ff',
+                    focusBackground: '#cce1ff',
+                    color: '#002b66',
+                    focusColor: '#002b66'
                 }
             },
             dark: {
                 primary: {
-                    color: '#fde68a',
-                    inverseColor: '#78350f',
-                    hoverColor: '#fef3c7',
-                    activeColor: '#f59e0b'
+                    color: '#66a5ff',
+                    inverseColor: '#001533',
+                    hoverColor: '#99c3ff',
+                    activeColor: '#006AFE'
                 },
                 highlight: {
-                    background: 'rgba(255, 251, 235, .08)',
-                    focusBackground: 'rgba(255, 251, 235, .12)',
-                    color: 'rgba(255,251,235,.95)',
-                    focusColor: 'rgba(255,251,235,.95)'
+                    background: 'rgba(0, 106, 254, .08)',
+                    focusBackground: 'rgba(0, 106, 254, .12)',
+                    color: 'rgba(230, 240, 255, .95)',
+                    focusColor: 'rgba(230, 240, 255, .95)'
                 }
             }
         }

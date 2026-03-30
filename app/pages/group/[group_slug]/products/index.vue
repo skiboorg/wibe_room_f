@@ -22,9 +22,9 @@ const page_update = async (page)=>{
 <template>
   <UIButton v-if="currentCommunity?.is_owner" @click="navigateTo(`/group/${currentCommunity?.slug}/products/new`)" label="Добавить"/>
   <div class="space-y-4">
-    <CardProduct v-for="product in products_response?.main_products" :key="product.id" :product="product"/>
+    <CardProduct v-for="product in products_response?.main_products" :is_full="true" :key="product.id" :product="product"/>
     <div class="grid grid-cols-1 md:grid-cols-2 gap-x-2 gap-y-4 ">
-      <CardProduct v-for="product in products_response?.products" :key="product.id" :product="product"/>
+      <CardProduct v-for="product in products_response?.products" :is_full="false" :key="product.id" :product="product"/>
     </div>
     <UIPaginator :total="products_response?.count" :page="filters.page" :per-page="10" @update:page="page_update"/>
   </div>

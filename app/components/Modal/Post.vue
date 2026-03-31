@@ -3,7 +3,7 @@
 
     <UIButton @click="visible = true" variant="outline" label="Напишите пост" fluid/>
 
-    <Dialog v-model:visible="visible" :show-header="false" modal header="Edit Profile" class="new-post w-[90%] md:w-[50%]">
+    <Dialog v-model:visible="visible" :show-header="false" modal header="Edit Profile" class="new-post w-[90%] md:w-[568px]">
       <div class="p-4">
         <h2 class="font-medium mb-6">Новый пост</h2>
 

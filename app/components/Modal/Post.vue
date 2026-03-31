@@ -4,7 +4,7 @@
     <UIButton @click="visible = true" variant="outline" label="Напишите пост" fluid/>
 
     <Dialog v-model:visible="visible" :show-header="false" modal header="Edit Profile" class="new-post w-[90%] md:w-[50%]">
-      <div class="max-w-4xl mx-auto p-6 bg-white rounded-lg shadow-lg">
+      <div class="p-4">
         <h2 class="text-2xl font-bold mb-6">Создание новой записи</h2>
 
         <form @submit.prevent="handleSubmit" class="space-y-6">

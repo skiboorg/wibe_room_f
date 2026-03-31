@@ -73,12 +73,7 @@ watch(() => loading.value, async () => {
       <CardBase v-if="currentCommunity?.is_owner" padding="lg_sm">
         <div class="flex items-start gap-4">
           <UIAvatar :image="user.avatar" size="md" />
-          <UIButton
-              @click="navigateTo(`/group/${currentCommunity.slug}/post`)"
-              variant="outline"
-              label="Напишите пост"
-              fluid
-          />
+          <ModalPost @created="refresh"/>
         </div>
       </CardBase>
 
@@ -123,14 +118,14 @@ watch(() => loading.value, async () => {
         </CardBase>
 
         <!-- теги -->
-        <div class="flex gap-2">
-          <UIRadioBtns
-              v-model="filters.tag"
-              show_sign
-              :items="tags"
-              @select="() => { filters.page = 1; refresh() }"
-          />
-        </div>
+<!--        <div class="flex gap-2">-->
+<!--          <UIRadioBtns-->
+<!--              v-model="filters.tag"-->
+<!--              show_sign-->
+<!--              :items="tags"-->
+<!--              @select="() => { filters.page = 1; refresh() }"-->
+<!--          />-->
+<!--        </div>-->
       </div>
 
       <!-- результаты поиска — подпись -->

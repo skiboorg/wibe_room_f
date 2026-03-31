@@ -7,6 +7,7 @@ const { $api } = useNuxtApp()
 
 const props = defineProps<{
   event: Event
+  group_slug?: string
 }>()
 const emits = defineEmits(['delete-event', 'update'])
 
@@ -49,7 +50,8 @@ async function toggleFavorite() {
           <p class="leading-[130%] text-sm text-gray-600 line-clamp-2">{{ event.short_description }}</p>
 
           <div class="flex flex-col items-start gap-2 flex-wrap">
-            <UITextLink label="Перейти в мероприятие" :to="`events/${event.slug}`" />
+            {{group_slug}}
+            <UITextLink label="Перейти в мероприятие" :to="group_slug ? `/group/${group_slug}/events/${event.slug}`: ` events/${event.slug}`" />
 
             <!-- в избранное -->
             <button

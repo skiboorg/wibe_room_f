@@ -308,6 +308,7 @@ const submitForm = async () => {
         <div class="mb-6">
           <Textarea
               auto-resize
+              :maxlength="300"
               v-model="form.short_description"
               id="short_description"
               label="Короткое описание"
@@ -315,6 +316,10 @@ const submitForm = async () => {
               fluid
               :error="errors.short_description"
           />
+          <div class="flex justify-end">
+            <p class="text-gray-400 text-xs"> {{form.short_description?.length}} /300</p>
+          </div>
+
         </div>
 
         <!-- Длинное описание -->

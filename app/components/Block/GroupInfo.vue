@@ -49,7 +49,7 @@ const leave = async () => {
 
         <UILink show_copy_icon external_link :label="`@${currentCommunity.slug}`" :link="`https://viberoom.org/group/${currentCommunity.slug}`"/>
 
-        <p class="leading-[130%] mb-3 break-all mt-4">
+        <p class="leading-[130%] mb-3  mt-4">
           {{currentCommunity.short_description}}
         </p>
         <div class="space-y-2">

@@ -2,7 +2,8 @@
 definePageMeta({ layout: 'profile' })
 
 const { $api } = useNuxtApp()
-
+import { useConfirm } from "primevue/useconfirm";
+const confirm = useConfirm();
 const activeTab = ref<'products' | 'events'>('products')
 
 const { data: favProducts, status: statusP, refresh: refreshP } = useAsyncData('fav-products', () => $api.auth.favorites_products())
@@ -27,11 +28,32 @@ async function clearAll() {
     await refreshE()
   }
 }
+const confirm1 = () => {
+  confirm.require({
+    message: 'Вы уверены что хотите очистить весь список?',
+    header: 'Вы уверены?',
+    icon: 'pi pi-exclamation-triangle',
+    rejectProps: {
+      label: 'Отмена',
+      severity: 'secondary',
+      outlined: true
+    },
+    acceptProps: {
+      label: 'Да'
+    },
+    accept: async () => {
+      await clearAll()
+    },
+    reject: () => {
+
+    }
+  });
+};
 </script>
 
 <template>
   <div>
-
+    <ConfirmDialog></ConfirmDialog>
 
     <!-- табы -->
     <div class="flex gap-2 mb-4">
@@ -50,10 +72,11 @@ async function clearAll() {
     </div>
 
     <!-- очистить список -->
+
     <button
         v-if="(activeTab === 'products' ? favProducts?.length : favEvents?.length)"
         class="flex items-center gap-1.5 text-sm text-primary mb-4"
-        @click="clearAll"
+        @click="confirm1()"
     >
       <i class="pi pi-trash text-xs" />
       Очистить список
@@ -84,6 +107,7 @@ async function clearAll() {
           <CardProduct v-for="fav in favProducts"
                        :is_full="true"
                        @update="refreshP"
+                       :group_slug="fav.community_slug"
                        :key="fav.product.id" :product="fav.product"/>
       </div>
     </template>
@@ -99,6 +123,7 @@ async function clearAll() {
           <CardEvent
               v-for="fav in favEvents"
               :key="fav.id"
+              :group_slug="fav.community_slug"
               :event="fav.event"
               @update="refreshE"
           />

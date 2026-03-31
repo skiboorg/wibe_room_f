@@ -3,7 +3,7 @@ import type { Product } from '~/repository/community/types'
 
 const props = defineProps<{
   product: Product
-  is_fav?: boolean
+  group_slug?: string
   is_full?: boolean
 }>()
 
@@ -36,7 +36,7 @@ async function toggleFavorite() {
       <Button
           v-if="currentCommunity?.is_owner"
           icon="pi pi-pencil"
-          @click="navigateTo(`/group/${currentCommunity.slug}/products/${product.slug}/edit`)"
+          @click="navigateTo(`/group/${group_slug ? group_slug :currentCommunity.slug}/products/${product.slug}/edit`)"
       />
       <img
           v-if="product.cover"
@@ -58,7 +58,7 @@ async function toggleFavorite() {
 <!--        />-->
 
         <!-- перейти -->
-        <nuxt-link  :to="`/group/${currentCommunity?.slug}/products/${product.slug}`">
+        <nuxt-link  :to="`/group/${group_slug ? group_slug : currentCommunity?.slug}/products/${product.slug}`">
           <UIButton fluid label="Перейти" />
         </nuxt-link>
 
